@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="55" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+ <tileset firstgid="1" name="StellarMaidenTileset" tilewidth="32" tileheight="32" tilecount="6" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="0">
+   <image width="32" height="32" source="Sprites/Blue_Wall.png"/>
+  </tile>
+  <tile id="1">
+   <image width="32" height="32" source="Sprites/Purple_Tile.png"/>
+  </tile>
+  <tile id="2">
+   <image width="32" height="32" source="Sprites/T_Wall.png"/>
+  </tile>
+  <tile id="3">
+   <image width="32" height="32" source="Sprites/T_Tile.png"/>
+  </tile>
+  <tile id="4">
+   <image width="32" height="32" source="Sprites/player_spawn.png"/>
+  </tile>
+  <tile id="5">
+   <image width="32" height="32" source="Sprites/enemy_spawn.png"/>
+  </tile>
+ </tileset>
+ <layer id="1" name="Walls" width="55" height="40">
+  <data encoding="base64" compression="zlib">
+   eJzt18sKhTAMRdGI///PlzsolNLYRCqeLdmQgeAgS3zgYWZHDWLObv7HJrDTTpcNNrqvd81sVN/o8mw038x1ZaP4PNfKpu67ckVsqr6VK2pT80VcGZuKL+rK2t72ZVx3bG/6zhuTtVFq1+SLjbbxPqA027k/9u5z9bydo8+xarveU2rtfg+r9MQ3RqWy8Vytr7pa0d1prtbK451HabYzzZCpbMzKxqxszMrGrGzMysbsiX9zpfkBdAoDtw==
+  </data>
+ </layer>
+ <layer id="2" name="Floor" width="55" height="40">
+  <data encoding="base64" compression="zlib">
+   eJzt08EKwCAMA9Ai/v837ypStToljTYQkM1D3kGRCGsSesDm5OKc5B5fFt3G7svSt7H6sthsbL7aNbKx+DSXxebd13JZbV59PZdmK/959o1cszYvPotrxebFN5PRe2PsS7Y66H2zDs2iuVh8rc3WoPfPuFaCdpxyefOdCNoUNl7Xbh/a8cfXu4fev+JL1Vm7h9694qu/obed9KJ3hC1sYeNu2DgbNs6GjbMv2G7NB77NCv0=
+  </data>
+ </layer>
+ <layer id="3" name="PlayerSpawner" width="55" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztziEBAAAIA7Ab+lcmww2YLcESAACuzXcAAAAAAACgsJ6sAAY=
+  </data>
+ </layer>
+ <layer id="4" name="EnemySpawner" width="55" height="40">
+  <data encoding="base64" compression="zlib">
+   eJzt17EJAAAIAzAn/z/ZB1xExCXZi9ChYAQAAAAAG/mY394G4Jcdn9MZwD0/DtApDz4AMQ==
+  </data>
+ </layer>
+</map>
