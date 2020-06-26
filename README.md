@@ -42,7 +42,7 @@
 
 [![Product Name Screen Shot][product-screenshot]]
 
-An indie platformer game written in Python using the Arcade library. More information later since the project is yet unfinished.
+An indie bullet hell arcade game. More information once the project is done.
 
 ### Built With
 
