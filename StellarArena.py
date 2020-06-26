@@ -1,0 +1,254 @@
+import arcade, math, random
+from PlayerObject import PlayerCharacter
+from FireEnemy import FireEnemyObject
+
+
+WINDOW_WIDTH = 1250
+WINDOW_HEIGHT = 650
+WINDOW_TITLE = "Stellar: Arena"
+
+WALL_SCALE = 1.5
+
+PLAYER_BULLET_DAMAGE = 25
+ENEMY_HEALTH = 100
+
+BULLET_SPEED = 7
+
+LEFT_VIEW_MARGIN = 250
+RIGHT_VIEW_MARGIN = 250
+UPPER_VIEW_MARGIN = 256
+BOTTOM_VIEW_MARGIN = 50
+
+UPDATES_PER_FRAME = 7
+
+class BotFight(arcade.Window):
+
+    def __init__(self):
+
+        super().__init__(WINDOW_WIDTH,WINDOW_HEIGHT,WINDOW_TITLE)
+        arcade.set_background_color(arcade.color.COOL_BLACK)
+
+        self.player_list = None
+        self.wall_list = None
+        self.floor_list = None
+        self.player_spawn_list = None
+        self.enemy_spawn_list = None
+        self.death_tile_list = None
+        self.collision_list = None
+        self.enemy_sprite_list = None
+        self.lzbullet_sprite_list = None
+        self.firebullet_sprite_list = None
+        self.sawbullet_sprite_list = None
+        self.vampirebullet_sprite_list = None
+
+        self.enemy_spawner_x_list = []
+        self.enemy_spawner_y_list = []
+
+        self.view_bottom = 0
+        self.view_left = 0
+
+        self.movement_possible = True
+        self.max_enemies = 8
+        self.enemy_num = 0
+
+    def setup(self):
+
+        self.player_list = arcade.SpriteList()
+        self.wall_list = arcade.SpriteList()
+        self.floor_list = arcade.SpriteList()
+        self.player_spawn_list = arcade.SpriteList()
+        self.enemy_spawn_list = arcade.SpriteList()
+        self.death_tile_list = arcade.SpriteList()
+        self.collision_list = arcade.SpriteList()
+        self.enemy_sprite_list = arcade.SpriteList()
+        self.lzbullet_sprite_list = arcade.SpriteList()
+        self.firebullet_sprite_list = arcade.SpriteList()
+        self.sawbullet_sprite_list = arcade.SpriteList()
+        self.vampirebullet_sprite_list = arcade.SpriteList()
+        self.health_up_list = arcade.SpriteList()
+
+        level_file = "C:\\Users\\Dell\\Desktop\\Pylam\\Arcade\\TrainingRoom.tmx"
+        wall_layer_name = "Walls"
+        floor_layer_name = "Floor"
+        player_spawner_name = "PlayerSpawner"
+        enemy_spawner_name = "EnemySpawner"
+        death_tile_layer_name = "DeathTiles"
+        health_up_layer = "PU_HealthUp"
+
+        game_arena = arcade.tilemap.read_tmx(level_file)
+        self.wall_list = arcade.tilemap.process_layer(game_arena,wall_layer_name,WALL_SCALE)
+        self.floor_list = arcade.tilemap.process_layer(game_arena,floor_layer_name,WALL_SCALE)
+        self.player_spawn_list = arcade.tilemap.process_layer(game_arena,player_spawner_name,WALL_SCALE)
+        self.enemy_spawn_list = arcade.tilemap.process_layer(game_arena,enemy_spawner_name,WALL_SCALE)
+        self.health_up_list = arcade.tilemap.process_layer(game_arena,health_up_layer,1)
+
+        for sprite in self.wall_list:
+            self.collision_list.append(sprite)
+        
+        self.player = PlayerCharacter(100,50,4,"Fire",15)
+        for spawner in self.player_spawn_list:
+            self.player.center_x = spawner.center_x
+            self.player.center_y = spawner.center_y
+        self.player_list.append(self.player)
+
+        for spawner in self.enemy_spawn_list:
+            self.enemy_spawner_x_list.append(spawner.center_x)
+            self.enemy_spawner_y_list.append(spawner.center_y)
+
+            
+
+        if game_arena.background_color:
+            arcade.set_background_color(game_arena.background_color)
+
+        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player,self.collision_list,0)
+
+    def on_draw(self):
+            
+        arcade.start_render()
+        self.wall_list.draw()
+        self.floor_list.draw()
+        self.enemy_spawn_list.draw()
+        self.player_spawn_list.draw()
+        self.firebullet_sprite_list.draw()
+
+        try:
+            self.player_list.draw()
+            self.enemy_sprite_list.draw()
+        except Exception as e:
+            print(str(e))
+    
+    def on_key_press(self,key,modifiers):
+       
+        if (key == arcade.key.UP or key == arcade.key.W) and self.movement_possible:
+            self.player.change_y = self.player.mv_speed
+        elif (key == arcade.key.DOWN or key == arcade.key.S) and self.movement_possible:
+            self.player.change_y = -self.player.mv_speed
+        elif (key == arcade.key.RIGHT or key == arcade.key.D) and self.movement_possible:
+            self.player.change_x = self.player.mv_speed
+        elif (key == arcade.key.LEFT or key == arcade.key.A) and self.movement_possible:
+            self.player.change_x = -self.player.mv_speed
+    
+    def on_key_release(self, key, modifiers):
+
+        if key == arcade.key.UP or key == arcade.key.W:
+            self.player.change_y = 0
+        elif key == arcade.key.DOWN or key == arcade.key.S:
+            self.player.change_y = 0
+        elif key == arcade.key.RIGHT or key == arcade.key.D:
+            self.player.change_x = 0
+        elif key == arcade.key.LEFT or key == arcade.key.A:
+            self.player.change_x = 0
+        
+    def on_mouse_press(self,x,y,button,modifiers):
+
+         if (self.player.adaptation == "Fire") and (self.player.adaptation_uses > 0):
+            bullet = arcade.Sprite("Sprites/bullet.png",1)
+            self.firebullet_sprite_list.append(bullet)
+         elif((self.adaptation == "Saw") and (self.player.adaptation_uses > 0)):
+            bullet = arcade.Sprite("Sprites/bullet.png",1)
+            self.sawbullet_sprite_list.append(bullet)
+         elif((self.adaptation == "Vampire") and (self.player.adaptation_uses > 0)):
+            bullet = arcade.Sprite("Sprites/bullet.png",1)
+            self.vampirebullet_sprite_list.append(bullet)
+
+         start_x = self.player.center_x
+         start_y = self.player.center_y
+         bullet.center_x = start_x
+         bullet.center_y = start_y
+
+         dest_x = x + self.view_left
+         dest_y = y + self.view_bottom
+         x_diff = dest_x - start_x
+         y_diff = dest_y - start_y
+       
+         angle = math.atan2(y_diff, x_diff)
+        
+         bullet.angle = math.degrees(angle)
+        
+         bullet.change_x = math.cos(angle) * BULLET_SPEED
+         bullet.change_y = math.sin(angle) * BULLET_SPEED
+
+         self.player.adaptation_uses -= 1
+
+
+      
+    def on_update(self,delta_time):
+
+        self.lzbullet_sprite_list.update()
+        self.firebullet_sprite_list.update()
+        self.sawbullet_sprite_list.update()
+        self.vampirebullet_sprite_list.update()
+        self.player_list.update()
+        self.player.update_animation()
+        self.physics_engine.update()
+
+        view_changed = False
+        left_border = self.view_left + LEFT_VIEW_MARGIN
+
+        #Spawn enemies
+        if self.enemy_num < self.max_enemies:
+            
+            enemy_type = random.randint(1,3)
+            
+            if(enemy_type == 1):
+                self.enemy = FireEnemyObject(50,50,4,5,"Fire")
+                self.enemy.fire_sprite.center_x = self.enemy_spawner_x_list[self.enemy_num]
+                self.enemy.fire_sprite.center_y = self.enemy_spawner_y_list[self.enemy_num]
+                self.enemy_sprite_list.append(self.enemy.fire_sprite)
+                self.enemy_num += 1
+            
+            elif(enemy_type == 2):
+                
+                self.enemy = FireEnemyObject(50,50,4,5,"Fire")
+                self.enemy.fire_sprite.center_x = self.enemy_spawner_x_list[self.enemy_num]
+                self.enemy.fire_sprite.center_y = self.enemy_spawner_y_list[self.enemy_num]
+                self.enemy_sprite_list.append(self.enemy.fire_sprite)
+                self.enemy_num += 1
+            
+            elif(enemy_type == 3):
+
+                self.enemy = FireEnemyObject(50,50,4,5,"Fire")
+                self.enemy.fire_sprite.center_x = self.enemy_spawner_x_list[self.enemy_num]
+                self.enemy.fire_sprite.center_y = self.enemy_spawner_y_list[self.enemy_num]
+                self.enemy_sprite_list.append(self.enemy.fire_sprite)
+                self.enemy_num += 1
+
+        
+        #If the player character moves beyond a certain margin, move the camera with it.
+        #This basically centers the camera to the player when he moves too far in any direction.
+        if self.player.left < left_border:
+            self.view_left -= left_border - self.player.left
+            view_changed = True
+            
+        right_border = self.view_left + WINDOW_WIDTH - RIGHT_VIEW_MARGIN
+        if self.player.right > right_border:
+            self.view_left += self.player.right - right_border
+            view_changed = True
+        
+        top_border = self.view_bottom + UPPER_VIEW_MARGIN
+        if self.player.top > UPPER_VIEW_MARGIN:
+            self.view_bottom += self.player.top - top_border
+            view_changed = True
+
+
+        bottom_border = self.view_bottom + BOTTOM_VIEW_MARGIN
+        if self.player.bottom < bottom_border:
+            self.view_bottom -= bottom_border - self.player.bottom
+            view_changed = True
+
+        if view_changed:
+
+            self.view_bottom = int(self.view_bottom)
+            self.view_left = int(self.view_left)
+            
+            arcade.set_viewport(self.view_left,self.view_left+WINDOW_WIDTH,self.view_bottom,self.view_bottom+WINDOW_HEIGHT)
+
+def main():
+
+    main_window = BotFight()
+    main_window.setup()
+    arcade.run()
+
+if __name__ == "__main__":
+    main()
+        
