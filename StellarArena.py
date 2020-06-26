@@ -7,7 +7,7 @@ WINDOW_WIDTH = 1250
 WINDOW_HEIGHT = 650
 WINDOW_TITLE = "Stellar: Arena"
 
-WALL_SCALE = 1.5
+WALL_SCALE = 1
 
 PLAYER_BULLET_DAMAGE = 25
 ENEMY_HEALTH = 100
@@ -26,7 +26,7 @@ class BotFight(arcade.Window):
     def __init__(self):
 
         super().__init__(WINDOW_WIDTH,WINDOW_HEIGHT,WINDOW_TITLE)
-        arcade.set_background_color(arcade.color.COOL_BLACK)
+        arcade.set_background_color(arcade.color.BLACK)
 
         self.player_list = None
         self.wall_list = None
@@ -67,7 +67,7 @@ class BotFight(arcade.Window):
         self.vampirebullet_sprite_list = arcade.SpriteList()
         self.health_up_list = arcade.SpriteList()
 
-        level_file = "C:\\Users\\Dell\\Desktop\\Pylam\\Arcade\\TrainingRoom.tmx"
+        level_file = "C:\\Users\\Dell\\Desktop\\Pylam\\Arcade\\Metallic_Pyre.tmx"
         wall_layer_name = "Walls"
         floor_layer_name = "Floor"
         player_spawner_name = "PlayerSpawner"
@@ -180,6 +180,8 @@ class BotFight(arcade.Window):
         self.vampirebullet_sprite_list.update()
         self.player_list.update()
         self.player.update_animation()
+        self.enemy_sprite_list.update()
+        self.enemy_sprite_list.update_animation()
         self.physics_engine.update()
 
         view_changed = False
@@ -192,26 +194,29 @@ class BotFight(arcade.Window):
             
             if(enemy_type == 1):
                 self.enemy = FireEnemyObject(50,50,4,5,"Fire")
-                self.enemy.fire_sprite.center_x = self.enemy_spawner_x_list[self.enemy_num]
-                self.enemy.fire_sprite.center_y = self.enemy_spawner_y_list[self.enemy_num]
-                self.enemy_sprite_list.append(self.enemy.fire_sprite)
+                self.enemy.center_x = self.enemy_spawner_x_list[self.enemy_num]
+                self.enemy.center_y = self.enemy_spawner_y_list[self.enemy_num]
+                self.enemy_sprite_list.append(self.enemy)
                 self.enemy_num += 1
             
             elif(enemy_type == 2):
                 
                 self.enemy = FireEnemyObject(50,50,4,5,"Fire")
-                self.enemy.fire_sprite.center_x = self.enemy_spawner_x_list[self.enemy_num]
-                self.enemy.fire_sprite.center_y = self.enemy_spawner_y_list[self.enemy_num]
-                self.enemy_sprite_list.append(self.enemy.fire_sprite)
+                self.enemy.center_x = self.enemy_spawner_x_list[self.enemy_num]
+                self.enemy.center_y = self.enemy_spawner_y_list[self.enemy_num]
+                self.enemy_sprite_list.append(self.enemy)
                 self.enemy_num += 1
             
             elif(enemy_type == 3):
 
                 self.enemy = FireEnemyObject(50,50,4,5,"Fire")
-                self.enemy.fire_sprite.center_x = self.enemy_spawner_x_list[self.enemy_num]
-                self.enemy.fire_sprite.center_y = self.enemy_spawner_y_list[self.enemy_num]
-                self.enemy_sprite_list.append(self.enemy.fire_sprite)
+                self.enemy.center_x = self.enemy_spawner_x_list[self.enemy_num]
+                self.enemy.center_y = self.enemy_spawner_y_list[self.enemy_num]
+                self.enemy_sprite_list.append(self.enemy)
                 self.enemy_num += 1
+
+        for enemy in self.enemy_sprite_list:
+            enemy.chase_player(self.player)
 
         
         #If the player character moves beyond a certain margin, move the camera with it.
