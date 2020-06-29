@@ -36,7 +36,7 @@
 * [Contributing](#contributing)
 * [License](#license)
 * [Contact](#contact)
-* [Acknowledgements](#acknowledgements
+* [Acknowledgements](#acknowledgements)
 
 ## About The Project
 
