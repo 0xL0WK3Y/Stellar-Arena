@@ -59,7 +59,7 @@ class BotFight(arcade.Window):
         self.enemy_sprite_list = arcade.SpriteList(use_spatial_hash=True)
         self.bullet_sprite_list = arcade.SpriteList()
 
-        level_file = "C:\\Users\\Dell\\Desktop\\Pylam\\Arcade\\Terminal_Stasis.tmx"
+        level_file = "\\Arcade\\Terminal_Stasis.tmx"
         wall_layer_name = "Walls"
         floor_layer_name = "Floor"
         player_spawner_name = "PlayerSpawner"
