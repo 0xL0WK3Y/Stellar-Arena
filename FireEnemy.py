@@ -26,6 +26,7 @@ class FireEnemyObject(arcade.Sprite):
         self.character_scale = 1
         self.current_texture = 0
         self.updates_per_frame = 7
+        self.walls_hit = []
 
         self.fire_sprite = arcade.Sprite("C:\\Users\\Dell\\Desktop\\Pylam\\Project\\Sprites\\player.png")
         self.idle_sprite = load_texture_pair("C:\\Users\\Dell\\Desktop\\Pylam\\Arcade\\Sprites\\player.png")
@@ -71,6 +72,29 @@ class FireEnemyObject(arcade.Sprite):
 
             self.change_x = math.cos(angle) * self.mv_speed
             self.change_y = math.sin(angle) * self.mv_speed
-            
+    
+    def check_wall_collision(self,wall_list):
+
+        self.wall_list = wall_list
+        walls_hit = []
+        walls_hit += arcade.check_for_collision_with_list(self, self.wall_list)
+
+        for wall in walls_hit:
+                if self.change_x > 0:
+                    self.right = wall.left
+                elif self.change_x < 0:
+                    self.left = wall.right
+        if len(walls_hit) > 0:
+            self.change_x *= -1
+
+        self.center_y += self.change_y
+        walls_hit = arcade.check_for_collision_with_list(self, self.wall_list)
+        for wall in walls_hit:
+            if self.change_y > 0:
+                self.top = wall.bottom
+            elif self.change_y < 0:
+                self.bottom = wall.top
+        if len(walls_hit) > 0:
+            self.change_y *= -1
 
 
