@@ -36,10 +36,7 @@ class BotFight(arcade.Window):
         self.death_tile_list = None
         self.collision_list = None
         self.enemy_sprite_list = None
-        self.lzbullet_sprite_list = None
-        self.firebullet_sprite_list = None
-        self.sawbullet_sprite_list = None
-        self.vampirebullet_sprite_list = None
+        self.bullet_sprite_list = None
 
         self.enemy_spawner_x_list = []
         self.enemy_spawner_y_list = []
@@ -48,7 +45,7 @@ class BotFight(arcade.Window):
         self.view_left = 0
 
         self.movement_possible = True
-        self.max_enemies = 8
+        self.max_enemies = 5
         self.enemy_num = 0
 
     def setup(self):
@@ -58,34 +55,27 @@ class BotFight(arcade.Window):
         self.floor_list = arcade.SpriteList()
         self.player_spawn_list = arcade.SpriteList()
         self.enemy_spawn_list = arcade.SpriteList()
-        self.death_tile_list = arcade.SpriteList()
         self.collision_list = arcade.SpriteList()
-        self.enemy_sprite_list = arcade.SpriteList()
-        self.lzbullet_sprite_list = arcade.SpriteList()
-        self.firebullet_sprite_list = arcade.SpriteList()
-        self.sawbullet_sprite_list = arcade.SpriteList()
-        self.vampirebullet_sprite_list = arcade.SpriteList()
-        self.health_up_list = arcade.SpriteList()
+        self.enemy_sprite_list = arcade.SpriteList(use_spatial_hash=True)
+        self.bullet_sprite_list = arcade.SpriteList()
 
-        level_file = "C:\\Users\\Dell\\Desktop\\Pylam\\Arcade\\Metallic_Pyre.tmx"
+        level_file = "C:\\Users\\Dell\\Desktop\\Pylam\\Arcade\\Terminal_Stasis.tmx"
         wall_layer_name = "Walls"
         floor_layer_name = "Floor"
         player_spawner_name = "PlayerSpawner"
         enemy_spawner_name = "EnemySpawner"
         death_tile_layer_name = "DeathTiles"
-        health_up_layer = "PU_HealthUp"
 
         game_arena = arcade.tilemap.read_tmx(level_file)
         self.wall_list = arcade.tilemap.process_layer(game_arena,wall_layer_name,WALL_SCALE)
         self.floor_list = arcade.tilemap.process_layer(game_arena,floor_layer_name,WALL_SCALE)
         self.player_spawn_list = arcade.tilemap.process_layer(game_arena,player_spawner_name,WALL_SCALE)
         self.enemy_spawn_list = arcade.tilemap.process_layer(game_arena,enemy_spawner_name,WALL_SCALE)
-        self.health_up_list = arcade.tilemap.process_layer(game_arena,health_up_layer,1)
 
         for sprite in self.wall_list:
             self.collision_list.append(sprite)
         
-        self.player = PlayerCharacter(100,50,4,"Fire",15)
+        self.player = PlayerCharacter(100,50,4,"Lazer",15)
         for spawner in self.player_spawn_list:
             self.player.center_x = spawner.center_x
             self.player.center_y = spawner.center_y
@@ -109,7 +99,7 @@ class BotFight(arcade.Window):
         self.floor_list.draw()
         self.enemy_spawn_list.draw()
         self.player_spawn_list.draw()
-        self.firebullet_sprite_list.draw()
+        self.bullet_sprite_list.draw()
 
         try:
             self.player_list.draw()
@@ -141,9 +131,12 @@ class BotFight(arcade.Window):
         
     def on_mouse_press(self,x,y,button,modifiers):
 
-         if (self.player.adaptation == "Fire") and (self.player.adaptation_uses > 0):
+         if (self.player.adaptation == "Lazer"):
+            bullet = arcade.Sprite("Sprites/lz_bullet.png")
+            self.bullet_sprite_list.append(bullet)
+         elif (self.player.adaptation == "Fire") and (self.player.adaptation_uses > 0):
             bullet = arcade.Sprite("Sprites/bullet.png",1)
-            self.firebullet_sprite_list.append(bullet)
+            self.bullet_sprite_list.append(bullet)
          elif((self.adaptation == "Saw") and (self.player.adaptation_uses > 0)):
             bullet = arcade.Sprite("Sprites/bullet.png",1)
             self.sawbullet_sprite_list.append(bullet)
@@ -154,7 +147,7 @@ class BotFight(arcade.Window):
          start_x = self.player.center_x
          start_y = self.player.center_y
          bullet.center_x = start_x
-         bullet.center_y = start_y
+         bullet.center_y = start_y 
 
          dest_x = x + self.view_left
          dest_y = y + self.view_bottom
@@ -174,15 +167,23 @@ class BotFight(arcade.Window):
       
     def on_update(self,delta_time):
 
-        self.lzbullet_sprite_list.update()
-        self.firebullet_sprite_list.update()
-        self.sawbullet_sprite_list.update()
-        self.vampirebullet_sprite_list.update()
+        self.bullet_sprite_list.update()
         self.player_list.update()
         self.player.update_animation()
         self.enemy_sprite_list.update()
         self.enemy_sprite_list.update_animation()
         self.physics_engine.update()
+
+        self.bullet_wall_collision = []
+
+        for bullet in self.bullet_sprite_list:
+            self.bullet_wall_collision = arcade.check_for_collision_with_list(bullet,self.wall_list)
+            self.bullet_enemy_collision = arcade.check_for_collision_with_list(bullet, self.enemy_sprite_list)
+
+            for bullet_collision in self.bullet_wall_collision:
+                bullet.remove_from_sprite_lists()
+            for bullet_collision in self.bullet_enemy_collision:
+                bullet.remove_from_sprite_lists()
 
         view_changed = False
         left_border = self.view_left + LEFT_VIEW_MARGIN
@@ -217,6 +218,7 @@ class BotFight(arcade.Window):
 
         for enemy in self.enemy_sprite_list:
             enemy.chase_player(self.player)
+            enemy.check_wall_collision(self.wall_list)
 
         
         #If the player character moves beyond a certain margin, move the camera with it.
