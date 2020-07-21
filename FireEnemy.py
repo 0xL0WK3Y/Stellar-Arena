@@ -14,6 +14,7 @@ class FireEnemyObject(arcade.Sprite):
         
         super().__init__()
         
+        self.bullet_speed = 5
         self.rotation = 0
         self.updates_per_frame = 7
         self.max_health = max_health
@@ -28,12 +29,12 @@ class FireEnemyObject(arcade.Sprite):
         self.updates_per_frame = 7
         self.walls_hit = []
 
-        self.fire_sprite = arcade.Sprite("C:\\Users\\Dell\\Desktop\\Pylam\\Project\\Sprites\\player.png")
-        self.idle_sprite = load_texture_pair("C:\\Users\\Dell\\Desktop\\Pylam\\Arcade\\Sprites\\player.png")
+        self.fire_sprite = arcade.Sprite("Sprites/player.png")
+        self.idle_sprite = load_texture_pair("Sprites/player.png")
 
         self.walk_textures = []
         for i in range(1,2,1):
-            texture = load_texture_pair("C:\\Users\\Dell\\Desktop\\Pylam\\Arcade\\Sprites\\player_move_"+str(i)+".png")
+            texture = load_texture_pair("Sprites/player_move_"+str(i)+".png")
             self.walk_textures.append(texture)
 
     def update_animation(self, delta_time: float=1/60):
@@ -96,5 +97,22 @@ class FireEnemyObject(arcade.Sprite):
                 self.bottom = wall.top
         if len(walls_hit) > 0:
             self.change_y *= -1
+    
+    def aim(self,player):
 
+        bullet = arcade.Sprite("Sprites/lz_bullet.png")
 
+        self.player = player
+
+        self.start_x = self.center_x
+        self.start_y = self.center_y
+
+        self.dest_x = self.player.center_x
+        self.dest_y = self.player.center_y
+
+        x_diff = self.dest_x - self.start_x
+        y_diff = self.dest_y - self.start_y
+
+        self.angle = math.atan2(y_diff,x_diff)
+
+        self.angle = math.degrees(self.angle) - 90
