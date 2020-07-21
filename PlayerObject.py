@@ -29,13 +29,13 @@ class PlayerCharacter(arcade.Sprite):
         self.current_texture = 0
         self.updates_per_frame = 7
 
-        self.player_sprite = arcade.Sprite("C:\\Users\\Dell\\Desktop\\Pylam\\Arcade\\Sprites\\player.png")
+        self.player_sprite = arcade.Sprite("Sprites/player.png")
 
-        self.idle_sprite = load_texture_pair("C:\\Users\\Dell\\Desktop\\Pylam\\Arcade\\Sprites\\player.png")
+        self.idle_sprite = load_texture_pair("Sprites/player.png")
 
         self.walk_textures = []
         for i in range(1,2,1):
-            texture = load_texture_pair("C:\\Users\\Dell\\Desktop\\Pylam\\Arcade\\Sprites\\player_move_"+str(i)+".png")
+            texture = load_texture_pair("Sprites/player_move_"+str(i)+".png")
             self.walk_textures.append(texture)
 
     def update_animation(self, delta_time: float=1/60):
