@@ -37,6 +37,7 @@ class BotFight(arcade.Window):
         self.collision_list = None
         self.enemy_sprite_list = None
         self.bullet_sprite_list = None
+        self.enemy_bullet_sprite_list = None
 
         self.enemy_spawner_x_list = []
         self.enemy_spawner_y_list = []
@@ -45,8 +46,10 @@ class BotFight(arcade.Window):
         self.view_left = 0
 
         self.movement_possible = True
-        self.max_enemies = 5
+        self.max_enemies = 2
         self.enemy_num = 0
+
+        self.frame_count = 0
 
     def setup(self):
 
@@ -57,9 +60,10 @@ class BotFight(arcade.Window):
         self.enemy_spawn_list = arcade.SpriteList()
         self.collision_list = arcade.SpriteList()
         self.enemy_sprite_list = arcade.SpriteList(use_spatial_hash=True)
-        self.bullet_sprite_list = arcade.SpriteList()
+        self.bullet_sprite_list = arcade.SpriteList(use_spatial_hash =True)
+        self.enemy_bullet_sprite_list = arcade.SpriteList()
 
-        level_file = "\\Arcade\\Terminal_Stasis.tmx"
+        level_file = "Terminal_Stasis.tmx"
         wall_layer_name = "Walls"
         floor_layer_name = "Floor"
         player_spawner_name = "PlayerSpawner"
@@ -100,6 +104,7 @@ class BotFight(arcade.Window):
         self.enemy_spawn_list.draw()
         self.player_spawn_list.draw()
         self.bullet_sprite_list.draw()
+        self.enemy_bullet_sprite_list.draw()
 
         try:
             self.player_list.draw()
@@ -167,6 +172,8 @@ class BotFight(arcade.Window):
       
     def on_update(self,delta_time):
 
+        self.frame_count += 1
+
         self.bullet_sprite_list.update()
         self.player_list.update()
         self.player.update_animation()
@@ -219,6 +226,24 @@ class BotFight(arcade.Window):
         for enemy in self.enemy_sprite_list:
             enemy.chase_player(self.player)
             enemy.check_wall_collision(self.wall_list)
+            enemy.aim(self.player)
+            
+            if self.frame_count % 60 == 0:
+
+                enemy_bullet = arcade.Sprite("Sprites/lz_bullet.png")
+                enemy_bullet.center_x = enemy.start_x
+                enemy_bullet.center_y = enemy.start_y
+
+                enemy_bullet.angle = math.degrees(enemy.angle)
+
+                enemy_bullet.change_x = math.cos(enemy.angle) * enemy.bullet_speed
+                enemy_bullet.change_y = math.sin(enemy.angle) * enemy.bullet_speed
+
+                self.enemy_bullet_sprite_list.append(enemy_bullet)
+            
+            self.enemy_bullet_sprite_list.update()
+
+            
 
         
         #If the player character moves beyond a certain margin, move the camera with it.
