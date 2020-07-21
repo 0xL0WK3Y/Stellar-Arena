@@ -1,0 +1,42 @@
+In this file I will add a list of the remaining milestones for project completion. New ones will be added if needed.
+
+## Milestones
+
+* [Enemies combat] (#enemy-combat) Status: On progress.
+* [Player Combat] (#player-combat) Status: On progress.
+* [Player Powers] (#player-powers) Status: On progress.
+* [Mini Shop System] (#mini-shop-system) Status: Development not initiated.
+* [Sound] (#sound) Status: Development not initiated.
+* [Main Menu] (#main-menu) Status: Development not initiated.
+
+
+## Enemy combat
+
+* [Enemies can aim at the player] (COMPLETED)
+* [Enemies can shoot at the player] (COMPLETED)
+* [Full bullet collision] (ON PROGRESS)
+* [Enemies can deal damage] (ON PROGRESS)
+* [Enemies can kill the player] (ON PROGRESS)
+* [Different enemy types] (ON PROGRESS)
+* [Different enemy effects] (ON PROGRESS)
+
+## Player Combat
+
+* [The player can aim at the enemies] (COMPLETED)
+* [The player can shoot at the enemies] (COMPLETED)
+* [Full bullet collision] (COMPLETED)
+* [The player can destroy enemies] (ON PROGRESS)
+* [The player can absorb the enemie's powers] (ON PROGRESS]
+* [Different bullet effects for the player] (ON PROGRESS]
+
+## Mini Shop System
+
+Development not initiated.
+
+## Sound
+
+Development not initiated
+
+## Main Menu
+
+Development not initiated
