@@ -22,12 +22,14 @@ class PlayerCharacter(arcade.Sprite):
         self.mv_speed = mv_speed
         self.adaptation = adaptation
         self.adaptation_uses = adaptation_uses
+        self.bullet_damage = 25
         self.face_right = 0
         self.face_left = 1
         self.character_face_direction = self.face_left
         self.character_scale = 1
         self.current_texture = 0
         self.updates_per_frame = 7
+        
 
         self.player_sprite = arcade.Sprite("Sprites/player.png")
 
