@@ -116,3 +116,12 @@ class FireEnemyObject(arcade.Sprite):
         self.angle = math.atan2(y_diff,x_diff)
 
         self.angle = math.degrees(self.angle) - 90
+
+    def take_damage(self,bullet_damage,adaptation):
+        
+        self.bullet_damage = bullet_damage
+        self.adaptation = adaptation
+
+        self.health -= self.bullet_damage
+
+
