@@ -9,9 +9,6 @@ WINDOW_TITLE = "Stellar: Arena"
 
 WALL_SCALE = 1
 
-PLAYER_BULLET_DAMAGE = 25
-ENEMY_HEALTH = 100
-
 BULLET_SPEED = 7
 
 LEFT_VIEW_MARGIN = 250
@@ -190,6 +187,7 @@ class BotFight(arcade.Window):
             for bullet_collision in self.bullet_wall_collision:
                 bullet.remove_from_sprite_lists()
             for bullet_collision in self.bullet_enemy_collision:
+                bullet_collision.take_damage(self.player.bullet_damage,self.player.adaptation)
                 bullet.remove_from_sprite_lists()
 
         view_changed = False
@@ -227,6 +225,9 @@ class BotFight(arcade.Window):
             enemy.chase_player(self.player)
             enemy.check_wall_collision(self.wall_list)
             enemy.aim(self.player)
+            
+            if enemy.health <= 0:
+                enemy.remove_from_sprite_lists()
             
             if self.frame_count % 60 == 0:
 
