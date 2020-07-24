@@ -10,7 +10,7 @@ def load_texture_pair(filename):
 class FireEnemyObject(arcade.Sprite):
     
 
-    def __init__(self,max_health,health,mv_speed,damage,adaptation):
+    def __init__(self,max_health,health,mv_speed,damage,type):
         
         super().__init__()
         
@@ -20,7 +20,7 @@ class FireEnemyObject(arcade.Sprite):
         self.max_health = max_health
         self.health = health
         self.mv_speed = mv_speed
-        self.adaptation = adaptation
+        self.type = type
         self.face_right = 0
         self.face_left = 1
         self.character_face_direction = self.face_left
