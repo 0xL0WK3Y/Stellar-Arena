@@ -133,6 +133,10 @@ class BotFight(arcade.Window):
         
     def on_mouse_press(self,x,y,button,modifiers):
 
+         if self.player.adaptation_uses <= 0:
+            self.player.adaptation = "Lazer"
+            self.player.adaptation_uses = 15
+
          if (self.player.adaptation == "Lazer"):
             bullet = arcade.Sprite("Sprites/lz_bullet.png")
             self.bullet_sprite_list.append(bullet)
@@ -188,7 +192,10 @@ class BotFight(arcade.Window):
                 bullet.remove_from_sprite_lists()
             for bullet_collision in self.bullet_enemy_collision:
                 bullet_collision.take_damage(self.player.bullet_damage,self.player.adaptation)
+                if self.player.adaptation == "Lazer":
+                    self.player.adaptation = bullet_collision.type
                 bullet.remove_from_sprite_lists()
+                
 
         view_changed = False
         left_border = self.view_left + LEFT_VIEW_MARGIN
