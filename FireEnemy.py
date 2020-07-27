@@ -59,6 +59,9 @@ class FireEnemyObject(arcade.Sprite):
         self.center_x += self.change_x
         self.center_y += self.change_y
 
+        if self.mv_speed < 0:
+            self.mv_speed = 0
+
         if random.randrange(100) == 0:
 
             start_x = self.center_x
@@ -117,11 +120,9 @@ class FireEnemyObject(arcade.Sprite):
 
         self.angle = math.degrees(self.angle) - 90
 
-    def take_damage(self,bullet_damage,adaptation):
+    def take_damage(self,bullet_damage):
         
         self.bullet_damage = bullet_damage
-        self.adaptation = adaptation
-
         self.health -= self.bullet_damage
 
 
