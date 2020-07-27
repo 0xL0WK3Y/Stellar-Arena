@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="55" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+ <tileset firstgid="1" name="StellarMetallicTileset" tilewidth="32" tileheight="32" tilecount="7" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="0">
+   <image width="32" height="32" source="Sprites/Purple_Wall.png"/>
+  </tile>
+  <tile id="1">
+   <image width="32" height="32" source="Sprites/Blue_Tile.png"/>
+  </tile>
+  <tile id="2">
+   <image width="32" height="32" source="Sprites/T_Wall.png"/>
+  </tile>
+  <tile id="3">
+   <image width="32" height="32" source="Sprites/T_Tile.png"/>
+  </tile>
+  <tile id="4">
+   <image width="32" height="32" source="Sprites/player_spawn.png"/>
+  </tile>
+  <tile id="5">
+   <image width="32" height="32" source="Sprites/enemy_spawn.png"/>
+  </tile>
+  <tile id="6">
+   <image width="32" height="32" source="Sprites/Blue_Tile_Clean.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="8" name="StellarMaidenTileset" tilewidth="32" tileheight="32" tilecount="7" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="0">
+   <image width="32" height="32" source="Sprites/Blue_Wall.png"/>
+  </tile>
+  <tile id="1">
+   <image width="32" height="32" source="Sprites/Purple_Tile.png"/>
+  </tile>
+  <tile id="2">
+   <image width="32" height="32" source="Sprites/T_Wall.png"/>
+  </tile>
+  <tile id="3">
+   <image width="32" height="32" source="Sprites/T_Tile.png"/>
+  </tile>
+  <tile id="4">
+   <image width="32" height="32" source="Sprites/player_spawn.png"/>
+  </tile>
+  <tile id="5">
+   <image width="32" height="32" source="Sprites/enemy_spawn.png"/>
+  </tile>
+  <tile id="6">
+   <image width="32" height="32" source="Sprites/Purple_Tile_Clean.png"/>
+  </tile>
+ </tileset>
+ <layer id="1" name="Walls" width="55" height="40">
+  <data encoding="base64" compression="zlib">
+   eAHtk1EOxCAIRNvs/e+85WMSa0QHVKK7mjS0CAwP0vu6rvuHnwftdXZkfQE8H2DI/fKNux1srf/S3S58rd61+9X5mL5rMT18rboza+NfGt0DUy+PQS+MzXNL36hTuiv5EK/ZUo7Vp9WGn61njZe6yEktq2eJS+vj3ZNvyZFYaImdeXp0kOvpbzYXevLq9LBBe1V72FbdTL2vs7f6fFa9/Ye9gVGzK+5G69XqP2yxE2D3E9tVjBrYY9RiVQ5b7LxHqZ29jZpkbJ2zt9h5j1I7eytPUuYScbw63r0hz6vLzqRHR3I/jifVnMWXa1h1JF7Y2IM5lHSt2pqmVht+LS/3SzzL1uKCtljPSfNb70x9qcGwWbjSvtge0hz2vVWbYfNysT32xNX4Wmwrc2EmGl+NbQeuGp/GthOXxgc2sKQWOTvbL8qtAz4=
+  </data>
+ </layer>
+ <layer id="2" name="Floor" width="55" height="40">
+  <data encoding="base64" compression="zlib">
+   eAHtl4Fq5EAMQ0s5uP//41aljxNG4zibBJJjBxZ5bEu2dkppPz7+7/P3255/nujW91fMUfz5+6GH2hPQ95ePlTdqXr+zP96CvUF2xjdI/e7+3Bc7g8nbmf6Y3SE77EU05QU/7C7keG7FoXeCaKDL/IreN9GlBx563Jkn5Hiu9vl3Qv8KE9f5k/pKmzwayZdqzPN+cnDBqgHHkV60K8frNaa3znd9YrhwuDui4xxy3kdcteAJa0+nQ29CZji/m5M0lIMP13MdB556dOhlL+5HsGrtncOOPwv+7kiu26vOVW/KdRqTWtJMuaSlPuU5ismlfs8xw9HrZ8WuTzzRVq/6OIrJTfh37sHH1d74vjs8+3taeet2gLNnly29KzX93bZ2PrJH0sZ3qnW56R5420LNmmr6Xr7/n28NPui9qin+WYddfO9J/Pb272+A6felvunZoznppcffjRzY1ehJOP05xrs0mNVhmtXlOi1qHT/V4HUoHkexepPWkVw3n9oR/cTFx9Xe0uyrc29v5/+MXv1m0n+/W343fgc4XvEerk88maNe9XH8LTt+mpFyncakljRTLmmpT3mOYrhbiJ64xHC4H8GqtXeO+JrP2bsLPCFcdkKb/BQTv5uz0mW+c4/EPift6PUar/rTPnDhcHes3vjfYwvTPM/VGVs7pLrrpZgZiavaK97SnFWO+cxij4ret9JKeXj44M48Iefoe6FT0Weu4sqZ3tHj+/K7Yk7njZ47ovvBI2/Jvitv1O+M+KvIzskbtSdg9aU7p3oj/ySs/p60+yu7fgEpfiEf
+  </data>
+ </layer>
+ <layer id="3" name="PlayerSpawner" width="55" height="40">
+  <data encoding="base64" compression="zlib">
+   eAHt0DENAAAMw7A+4095NKrKYRAnIkCAAAECBAgQIECAAAECBBYEbmHCAwECBAgQIECAAAECBAgQIECAQKXAA37MAAY=
+  </data>
+ </layer>
+ <layer id="4" name="EnemySpawner" width="55" height="40">
+  <data encoding="base64" compression="zlib">
+   eAHt1qEOACAIBUCT///JRiqB7TF3JoITPHR6jkGAAAECBErgVrg+2lLrljrWN0yBBAgQIECAQEsg9bdI5W2hmESAAAECBMIC3slwA6QnMCDgHg8gfrKEs/BJI22DAIGIwAOANQAx
+  </data>
+ </layer>
+</map>
