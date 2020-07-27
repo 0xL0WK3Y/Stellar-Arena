@@ -60,7 +60,7 @@ class BotFight(arcade.Window):
         self.bullet_sprite_list = arcade.SpriteList(use_spatial_hash =True)
         self.enemy_bullet_sprite_list = arcade.SpriteList()
 
-        level_file = "Terminal_Stasis.tmx"
+        level_file = "Metallic_Pyre.tmx"
         wall_layer_name = "Walls"
         floor_layer_name = "Floor"
         player_spawner_name = "PlayerSpawner"
@@ -143,12 +143,12 @@ class BotFight(arcade.Window):
          elif (self.player.adaptation == "Fire") and (self.player.adaptation_uses > 0):
             bullet = arcade.Sprite("Sprites/bullet.png",1)
             self.bullet_sprite_list.append(bullet)
-         elif((self.adaptation == "Saw") and (self.player.adaptation_uses > 0)):
+         elif((self.player.adaptation == "Slime") and (self.player.adaptation_uses > 0)):
+            bullet = arcade.Sprite("Sprites/slime_bullet.png",1)
+            self.bullet_sprite_list.append(bullet)
+         elif((self.player.adaptation == "Leech") and (self.player.adaptation_uses > 0)):
             bullet = arcade.Sprite("Sprites/bullet.png",1)
-            self.sawbullet_sprite_list.append(bullet)
-         elif((self.adaptation == "Vampire") and (self.player.adaptation_uses > 0)):
-            bullet = arcade.Sprite("Sprites/bullet.png",1)
-            self.vampirebullet_sprite_list.append(bullet)
+            self.bullet_sprite_list.append(bullet)
 
          start_x = self.player.center_x
          start_y = self.player.center_y
@@ -191,9 +191,16 @@ class BotFight(arcade.Window):
             for bullet_collision in self.bullet_wall_collision:
                 bullet.remove_from_sprite_lists()
             for bullet_collision in self.bullet_enemy_collision:
-                bullet_collision.take_damage(self.player.bullet_damage,self.player.adaptation)
+                bullet_collision.take_damage(self.player.bullet_damage)
                 if self.player.adaptation == "Lazer":
                     self.player.adaptation = bullet_collision.type
+                elif self.player.adaptation == "Fire":
+                    if self.frame_count % 60 == 0:
+                        bullet_collision.take_damage(5)
+                elif self.player.adaptation == "Leech":
+                    self.player.health += 2
+                elif self.player.adaptation == "Slime":
+                    bullet_collision.mv_speed -= 5
                 bullet.remove_from_sprite_lists()
                 
 
@@ -206,7 +213,7 @@ class BotFight(arcade.Window):
             enemy_type = random.randint(1,3)
             
             if(enemy_type == 1):
-                self.enemy = FireEnemyObject(50,50,4,5,"Fire")
+                self.enemy = FireEnemyObject(100,100,4,5,"Fire")
                 self.enemy.center_x = self.enemy_spawner_x_list[self.enemy_num]
                 self.enemy.center_y = self.enemy_spawner_y_list[self.enemy_num]
                 self.enemy_sprite_list.append(self.enemy)
@@ -214,7 +221,7 @@ class BotFight(arcade.Window):
             
             elif(enemy_type == 2):
                 
-                self.enemy = FireEnemyObject(50,50,4,5,"Fire")
+                self.enemy = FireEnemyObject(100,100,4,5,"Leech")
                 self.enemy.center_x = self.enemy_spawner_x_list[self.enemy_num]
                 self.enemy.center_y = self.enemy_spawner_y_list[self.enemy_num]
                 self.enemy_sprite_list.append(self.enemy)
@@ -222,7 +229,7 @@ class BotFight(arcade.Window):
             
             elif(enemy_type == 3):
 
-                self.enemy = FireEnemyObject(50,50,4,5,"Fire")
+                self.enemy = FireEnemyObject(100,100,4,5,"Slime")
                 self.enemy.center_x = self.enemy_spawner_x_list[self.enemy_num]
                 self.enemy.center_y = self.enemy_spawner_y_list[self.enemy_num]
                 self.enemy_sprite_list.append(self.enemy)
@@ -250,8 +257,6 @@ class BotFight(arcade.Window):
                 self.enemy_bullet_sprite_list.append(enemy_bullet)
             
             self.enemy_bullet_sprite_list.update()
-
-            
 
         
         #If the player character moves beyond a certain margin, move the camera with it.
