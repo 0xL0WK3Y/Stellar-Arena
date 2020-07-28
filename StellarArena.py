@@ -50,7 +50,7 @@ class BotFight(arcade.Window):
 
     def setup(self):
 
-        self.player_list = arcade.SpriteList()
+        self.player_list = arcade.SpriteList(use_spatial_hash=True)
         self.wall_list = arcade.SpriteList()
         self.floor_list = arcade.SpriteList()
         self.player_spawn_list = arcade.SpriteList()
@@ -58,9 +58,9 @@ class BotFight(arcade.Window):
         self.collision_list = arcade.SpriteList()
         self.enemy_sprite_list = arcade.SpriteList(use_spatial_hash=True)
         self.bullet_sprite_list = arcade.SpriteList(use_spatial_hash =True)
-        self.enemy_bullet_sprite_list = arcade.SpriteList()
+        self.enemy_bullet_sprite_list = arcade.SpriteList(use_spatial_hash=True)
 
-        level_file = "Metallic_Pyre.tmx"
+        level_file = "Maidens_Kiss.tmx"
         wall_layer_name = "Walls"
         floor_layer_name = "Floor"
         player_spawner_name = "PlayerSpawner"
@@ -147,7 +147,7 @@ class BotFight(arcade.Window):
             bullet = arcade.Sprite("Sprites/slime_bullet.png",1)
             self.bullet_sprite_list.append(bullet)
          elif((self.player.adaptation == "Leech") and (self.player.adaptation_uses > 0)):
-            bullet = arcade.Sprite("Sprites/bullet.png",1)
+            bullet = arcade.Sprite("Sprites/leech_bullet.png",1)
             self.bullet_sprite_list.append(bullet)
 
          start_x = self.player.center_x
@@ -176,13 +176,12 @@ class BotFight(arcade.Window):
         self.frame_count += 1
 
         self.bullet_sprite_list.update()
+        self.enemy_bullet_sprite_list.update()
         self.player_list.update()
         self.player.update_animation()
         self.enemy_sprite_list.update()
         self.enemy_sprite_list.update_animation()
         self.physics_engine.update()
-
-        self.bullet_wall_collision = []
 
         for bullet in self.bullet_sprite_list:
             self.bullet_wall_collision = arcade.check_for_collision_with_list(bullet,self.wall_list)
@@ -201,7 +200,22 @@ class BotFight(arcade.Window):
                     self.player.health += 2
                 elif self.player.adaptation == "Slime":
                     bullet_collision.mv_speed -= 5
+                
+                if bullet_collision.health <= 0:
+                    self.enemy_num -= 1
                 bullet.remove_from_sprite_lists()
+                
+
+        for enemy_bullet in self.enemy_bullet_sprite_list:
+            self.enemy_bullet_wall_collision = arcade.check_for_collision_with_list(enemy_bullet,self.wall_list)
+            self.enemy_bullet_player_collision = arcade.check_for_collision_with_list(enemy_bullet,self.player_list)
+
+            for bullet_collision in self.enemy_bullet_wall_collision:
+                enemy_bullet.remove_from_sprite_lists()
+            for bullet_collision in self.enemy_bullet_player_collision:
+                enemy_bullet.remove_from_sprite_lists()
+
+            
                 
 
         view_changed = False
