@@ -53,3 +53,8 @@ class PlayerCharacter(arcade.Sprite):
         if self.current_texture > 2 * self.updates_per_frame:
             self.current_texture = 0
         self.texture = self.walk_textures[self.current_texture // self.updates_per_frame][self.character_face_direction]
+
+    def take_damage(self,damage_taken):
+        
+        self.damage_taken = damage_taken
+        self.health -= self.damage_taken
