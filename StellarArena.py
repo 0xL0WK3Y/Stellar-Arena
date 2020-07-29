@@ -43,8 +43,6 @@ class BotFight(arcade.Window):
         self.view_left = 0
 
         self.movement_possible = True
-        self.max_enemies = 2
-        self.enemy_num = 0
 
         self.frame_count = 0
 
@@ -59,6 +57,9 @@ class BotFight(arcade.Window):
         self.enemy_sprite_list = arcade.SpriteList(use_spatial_hash=True)
         self.bullet_sprite_list = arcade.SpriteList(use_spatial_hash =True)
         self.enemy_bullet_sprite_list = arcade.SpriteList(use_spatial_hash=True)
+
+        self.max_enemies = 2
+        self.enemy_num = 0
 
         level_file = "Maidens_Kiss.tmx"
         wall_layer_name = "Walls"
@@ -183,6 +184,9 @@ class BotFight(arcade.Window):
         self.enemy_sprite_list.update_animation()
         self.physics_engine.update()
 
+        if self.enemy_num < 0:
+            enemy_num = 0
+
         for bullet in self.bullet_sprite_list:
             self.bullet_wall_collision = arcade.check_for_collision_with_list(bullet,self.wall_list)
             self.bullet_enemy_collision = arcade.check_for_collision_with_list(bullet, self.enemy_sprite_list)
@@ -195,7 +199,7 @@ class BotFight(arcade.Window):
                     self.player.adaptation = bullet_collision.type
                 elif self.player.adaptation == "Fire":
                     if self.frame_count % 60 == 0:
-                        bullet_collision.take_damage(5)
+                        bullet_collision.take_damage(10)
                 elif self.player.adaptation == "Leech":
                     self.player.health += 2
                 elif self.player.adaptation == "Slime":
@@ -213,6 +217,10 @@ class BotFight(arcade.Window):
             for bullet_collision in self.enemy_bullet_wall_collision:
                 enemy_bullet.remove_from_sprite_lists()
             for bullet_collision in self.enemy_bullet_player_collision:
+                self.player.take_damage(50)
+                
+                if self.player.health <= 0:
+                    self.setup()
                 enemy_bullet.remove_from_sprite_lists()
 
             
@@ -253,6 +261,9 @@ class BotFight(arcade.Window):
             enemy.chase_player(self.player)
             enemy.check_wall_collision(self.wall_list)
             enemy.aim(self.player)
+
+            if self.enemy_num > self.max_enemies:
+                enemy.remove_from_sprite_lists()
             
             if enemy.health <= 0:
                 enemy.remove_from_sprite_lists()
