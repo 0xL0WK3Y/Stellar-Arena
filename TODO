@@ -14,8 +14,8 @@ In this file I will add a list of the remaining milestones for project completio
 * [Enemies can aim at the player] (COMPLETED)
 * [Enemies can shoot at the player] (COMPLETED)
 * [Full bullet collision] (COMPLETED)
-* [Enemies can deal damage] (ON PROGRESS)
-* [Enemies can kill the player] (ON PROGRESS)
+* [Enemies can deal damage] (COMPLETED)
+* [Enemies can kill the player] (COMPLETED)
 * [Different enemy types] (ON PROGRESS)
 
 ## Player Combat (COMPLETED)
@@ -38,3 +38,7 @@ Development not initiated
 ## Main Menu
 
 Development not initiated
+
+## Other
+
+* Fix the leech bullet bug.
