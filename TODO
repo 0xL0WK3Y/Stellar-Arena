@@ -4,7 +4,7 @@ In this file I will add a list of the remaining milestones for project completio
 
 * [Enemies combat] Status: On progress.
 * [Player Combat] Status: Completed.
-* [Mini Shop System] Status: Development not initiated.
+* [Mini Shop System] Status: On Progress.
 * [Sound] Status: Development not initiated.
 * [Main Menu] Status: Development not initiated.
 
@@ -29,7 +29,8 @@ In this file I will add a list of the remaining milestones for project completio
 
 ## Mini Shop System
 
-Development not initiated.
+* [The player can collect points]
+* [The player can buy powers]
 
 ## Sound
 
@@ -42,3 +43,7 @@ Development not initiated
 ## Other
 
 * Fix the leech bullet bug.
+* Display health
+* Display bullets
+* Display adaptation
+* Display effect
