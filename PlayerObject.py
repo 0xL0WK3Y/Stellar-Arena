@@ -11,13 +11,12 @@ class PlayerCharacter(arcade.Sprite):
     
     
     
-    def __init__(self,max_health,health,mv_speed,adaptation,adaptation_uses):
+    def __init__(self,health,mv_speed,adaptation,adaptation_uses):
 
         super().__init__()
         
         self.rotation = 0
         self.updates_per_frame = 7
-        self.max_health = max_health
         self.health = health
         self.mv_speed = mv_speed
         self.adaptation = adaptation
