@@ -35,6 +35,7 @@ class BotFight(arcade.Window):
         self.enemy_sprite_list = None
         self.bullet_sprite_list = None
         self.enemy_bullet_sprite_list = None
+        self.player_score = 0
 
         self.enemy_spawner_x_list = []
         self.enemy_spawner_y_list = []
@@ -60,6 +61,7 @@ class BotFight(arcade.Window):
 
         self.max_enemies = 2
         self.enemy_num = 0
+        self.player_score = 0
 
         level_file = "Maidens_Kiss.tmx"
         wall_layer_name = "Walls"
@@ -77,7 +79,7 @@ class BotFight(arcade.Window):
         for sprite in self.wall_list:
             self.collision_list.append(sprite)
         
-        self.player = PlayerCharacter(100,50,4,"Lazer",15)
+        self.player = PlayerCharacter(100,4,"Lazer",15)
         for spawner in self.player_spawn_list:
             self.player.center_x = spawner.center_x
             self.player.center_y = spawner.center_y
@@ -104,9 +106,39 @@ class BotFight(arcade.Window):
         self.bullet_sprite_list.draw()
         self.enemy_bullet_sprite_list.draw()
 
+        score_text = f"Credits: {self.player_score}"
+        health_text = f"HP: {self.player.health}"
+        bullet_text = "Bullets: Infinite"
+        lazer_icon = arcade.load_texture("Sprites/lazer_icon.png")
+        fire_icon = arcade.load_texture("Sprites/fire_icon.png")
+        slime_icon = arcade.load_texture("Sprites/slime_icon.png")
+        leech_icon = arcade.load_texture("Sprites/leech_icon.png")
+
+        if self.player.adaptation != "Lazer":
+            bullet_text = f"Bullets: {self.player.adaptation_uses}"
+
+        arcade.draw_text(score_text,10 + self.view_left, 10 + self.view_bottom, arcade.csscolor.WHITE, 18)
+        arcade.draw_text(health_text,10 + self.view_left, 30 + self.view_bottom, arcade.csscolor.WHITE, 18)
+        arcade.draw_text(bullet_text,10 + self.view_left, 60 + self.view_bottom, arcade.csscolor.WHITE, 18)
+
+        if self.player.adaptation == "Lazer":
+            arcade.draw_xywh_rectangle_textured(10 + self.view_left, 110 + self.view_bottom, 24, 24, lazer_icon)
+            arcade.draw_text("LaZer: Adapt to your enemies.", 10 + self.view_left, 90 + self.view_bottom, arcade.csscolor.WHITE,12)
+        elif self.player.adaptation == "Fire":
+            arcade.draw_xywh_rectangle_textured(10 + self.view_left, 110 + self.view_bottom, 24, 24, fire_icon)
+            arcade.draw_text("Fire: Damage over time.", 10 + self.view_left, 90 + self.view_bottom, arcade.csscolor.WHITE,12)
+        elif self.player.adaptation == "Slime":
+            arcade.draw_xywh_rectangle_textured(10 + self.view_left, 110 + self.view_bottom, 24, 24, slime_icon)
+            arcade.draw_text("Slime: Slow them down.", 10 + self.view_left, 90 + self.view_bottom, arcade.csscolor.WHITE,12)
+        elif self.player.adaptation == "Leech":
+            arcade.draw_xywh_rectangle_textured(10 + self.view_left, 110 + self.view_bottom, 24, 24, leech_icon)
+            arcade.draw_text("Leech: Absorb their life.", 10 + self.view_left, 90 + self.view_bottom, arcade.csscolor.WHITE,12)
+        
+
         try:
             self.player_list.draw()
             self.enemy_sprite_list.draw()
+           
         except Exception as e:
             print(str(e))
     
@@ -168,7 +200,8 @@ class BotFight(arcade.Window):
          bullet.change_x = math.cos(angle) * BULLET_SPEED
          bullet.change_y = math.sin(angle) * BULLET_SPEED
 
-         self.player.adaptation_uses -= 1
+         if self.player.adaptation != "Lazer":
+            self.player.adaptation_uses -= 1
 
 
       
@@ -201,12 +234,13 @@ class BotFight(arcade.Window):
                     if self.frame_count % 60 == 0:
                         bullet_collision.take_damage(10)
                 elif self.player.adaptation == "Leech":
-                    self.player.health += 2
+                    self.player.health += 5
                 elif self.player.adaptation == "Slime":
                     bullet_collision.mv_speed -= 5
                 
                 if bullet_collision.health <= 0:
                     self.enemy_num -= 1
+                    self.player_score += 25
                 bullet.remove_from_sprite_lists()
                 
 
