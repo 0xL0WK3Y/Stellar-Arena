@@ -29,7 +29,7 @@ In this file I will add a list of the remaining milestones for project completio
 
 ## Mini Shop System
 
-* [The player can collect points]
+* [The player can collect points] (COMPLETED)
 * [The player can buy powers]
 
 ## Sound
@@ -43,7 +43,8 @@ Development not initiated
 ## Other
 
 * Fix the leech bullet bug.
-* Display health
-* Display bullets
-* Display adaptation
-* Display effect
+* Display health (COMPLETED)
+* Display bullets (COMPLETED)
+* Display adaptation (COMPLETED)
+* Display effect (COMPLETED)
+* Display FPS
