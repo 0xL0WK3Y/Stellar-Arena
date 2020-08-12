@@ -1,4 +1,4 @@
-import arcade, math, random
+import arcade, math, random, timeit
 from PlayerObject import PlayerCharacter
 from FireEnemy import FireEnemyObject
 
@@ -46,6 +46,8 @@ class BotFight(arcade.Window):
         self.movement_possible = True
 
         self.frame_count = 0
+        self.fps_start_timer = None
+        self.fps = None
 
     def setup(self):
 
@@ -99,6 +101,8 @@ class BotFight(arcade.Window):
     def on_draw(self):
             
         arcade.start_render()
+
+        draw_start_time = timeit.default_timer
         self.wall_list.draw()
         self.floor_list.draw()
         self.enemy_spawn_list.draw()
@@ -133,6 +137,17 @@ class BotFight(arcade.Window):
         elif self.player.adaptation == "Leech":
             arcade.draw_xywh_rectangle_textured(10 + self.view_left, 110 + self.view_bottom, 24, 24, leech_icon)
             arcade.draw_text("Leech: Absorb their life.", 10 + self.view_left, 90 + self.view_bottom, arcade.csscolor.WHITE,12)
+
+        if self.frame_count % 60 == 0:
+            if self.fps_start_timer is not None:
+                total_time = timeit.default_timer() - self.fps_start_timer
+                self.fps = 60 / total_time
+            self.fps_start_timer = timeit.default_timer()
+
+    
+        if self.fps is not None:
+            fps_text = f"FPS: {self.fps:.0f}"
+            arcade.draw_text(fps_text, 10 + self.view_left, 620 + self.view_bottom, arcade.csscolor.WHITE, 16)
         
 
         try:
