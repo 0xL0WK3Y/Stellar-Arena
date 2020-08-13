@@ -30,7 +30,9 @@ class BotFight(arcade.Window):
         self.floor_list = None
         self.player_spawn_list = None
         self.enemy_spawn_list = None
-        self.death_tile_list = None
+        self.mv_box_tile_list = None
+        self.hp_box_tile_list = None
+        self.ad_box_tile_list = None
         self.collision_list = None
         self.enemy_sprite_list = None
         self.bullet_sprite_list = None
@@ -56,6 +58,9 @@ class BotFight(arcade.Window):
         self.floor_list = arcade.SpriteList()
         self.player_spawn_list = arcade.SpriteList()
         self.enemy_spawn_list = arcade.SpriteList()
+        self.mv_box_tile_list = arcade.SpriteList()
+        self.hp_box_tile_list = arcade.SpriteList()
+        self.ad_box_tile_list = arcade.SpriteList()
         self.collision_list = arcade.SpriteList()
         self.enemy_sprite_list = arcade.SpriteList(use_spatial_hash=True)
         self.bullet_sprite_list = arcade.SpriteList(use_spatial_hash =True)
@@ -70,13 +75,18 @@ class BotFight(arcade.Window):
         floor_layer_name = "Floor"
         player_spawner_name = "PlayerSpawner"
         enemy_spawner_name = "EnemySpawner"
-        death_tile_layer_name = "DeathTiles"
+        mv_box_tile_layer_name = "MVBox"
+        hp_box_tile_layer_name = "HPBox"
+        ad_box_tile_layer_name = "ADBox"
 
         game_arena = arcade.tilemap.read_tmx(level_file)
         self.wall_list = arcade.tilemap.process_layer(game_arena,wall_layer_name,WALL_SCALE)
         self.floor_list = arcade.tilemap.process_layer(game_arena,floor_layer_name,WALL_SCALE)
         self.player_spawn_list = arcade.tilemap.process_layer(game_arena,player_spawner_name,WALL_SCALE)
         self.enemy_spawn_list = arcade.tilemap.process_layer(game_arena,enemy_spawner_name,WALL_SCALE)
+        self.mv_box_tile_list = arcade.tilemap.process_layer(game_arena,mv_box_tile_layer_name,WALL_SCALE)
+        self.hp_box_tile_list = arcade.tilemap.process_layer(game_arena,hp_box_tile_layer_name,WALL_SCALE)
+        self.ad_box_tile_list = arcade.tilemap.process_layer(game_arena,ad_box_tile_layer_name,WALL_SCALE)
 
         for sprite in self.wall_list:
             self.collision_list.append(sprite)
@@ -109,6 +119,9 @@ class BotFight(arcade.Window):
         self.player_spawn_list.draw()
         self.bullet_sprite_list.draw()
         self.enemy_bullet_sprite_list.draw()
+        self.mv_box_tile_list.draw()
+        self.hp_box_tile_list.draw()
+        self.ad_box_tile_list.draw()
 
         score_text = f"Credits: {self.player_score}"
         health_text = f"HP: {self.player.health}"
