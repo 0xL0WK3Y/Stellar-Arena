@@ -51,6 +51,15 @@ class BotFight(arcade.Window):
         self.fps_start_timer = None
         self.fps = None
 
+        self.lz_fire_sound = arcade.load_sound("Sound/lz_fire.wav")
+        self.lz_hit_sound = arcade.load_sound("Sound/lz_hit.wav")
+        self.fr_fire_sound = arcade.load_sound("Sound/fr_fire.wav")
+        self.fr_hit_sound = arcade.load_sound("Sound/fr_hit.wav")
+        self.sl_fire_sound = arcade.load_sound("Sound/sl_fire.wav")
+        self.sl_hit_sound = arcade.load_sound("Sound/sl_hit.wav")
+        self.lc_fire_sound = arcade.load_sound("Sound/lc_fire.wav")
+        self.lc_hit_sound = arcade.load_sound("Sound/lc_hit.wav")
+
     def setup(self):
 
         self.player_list = arcade.SpriteList(use_spatial_hash=True)
@@ -200,15 +209,19 @@ class BotFight(arcade.Window):
 
          if (self.player.adaptation == "Lazer"):
             bullet = arcade.Sprite("Sprites/lz_bullet.png")
+            arcade.play_sound(self.lz_fire_sound)
             self.bullet_sprite_list.append(bullet)
          elif (self.player.adaptation == "Fire") and (self.player.adaptation_uses > 0):
             bullet = arcade.Sprite("Sprites/bullet.png",1)
+            arcade.play_sound(self.fr_fire_sound)
             self.bullet_sprite_list.append(bullet)
          elif((self.player.adaptation == "Slime") and (self.player.adaptation_uses > 0)):
             bullet = arcade.Sprite("Sprites/slime_bullet.png",1)
+            arcade.play_sound(self.sl_fire_sound)
             self.bullet_sprite_list.append(bullet)
          elif((self.player.adaptation == "Leech") and (self.player.adaptation_uses > 0)):
             bullet = arcade.Sprite("Sprites/leech_bullet.png",1)
+            arcade.play_sound(self.lc_fire_sound)
             self.bullet_sprite_list.append(bullet)
 
          start_x = self.player.center_x
@@ -245,7 +258,7 @@ class BotFight(arcade.Window):
         self.enemy_sprite_list.update_animation()
         self.physics_engine.update()
 
-        if self.enemy_num <= 0:
+        if self.enemy_num < 0:
             enemy_num = 0
 
         for mv_up in self.mv_box_tile_list:
@@ -285,13 +298,17 @@ class BotFight(arcade.Window):
                 bullet_collision.take_damage(self.player.bullet_damage)
                 if self.player.adaptation == "Lazer":
                     self.player.adaptation = bullet_collision.type
+                    arcade.play_sound(self.lz_hit_sound)
                 elif self.player.adaptation == "Fire":
                     if self.frame_count % 60 == 0:
                         bullet_collision.take_damage(10)
+                    arcade.play_sound(self.fr_hit_sound)
                 elif self.player.adaptation == "Leech":
                     self.player.health += 5
+                    arcade.play_sound(self.lc_hit_sound)
                 elif self.player.adaptation == "Slime":
                     bullet_collision.mv_speed -= 5
+                    arcade.play_sound(self.sl_hit_sound)
                 
                 if bullet_collision.health <= 0:
                     self.enemy_num -= 1
