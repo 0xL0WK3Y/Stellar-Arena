@@ -4,8 +4,8 @@ In this file I will add a list of the remaining milestones for project completio
 
 * [Enemies combat] Status: Completed.
 * [Player Combat] Status: Completed.
-* [Mini Shop System] Status: On Progress.
-* [Sound] Status: Development not initiated.
+* [Mini Shop System] Status: Completed.
+* [Sound] Status: On progress.
 * [Main Menu] Status: Development not initiated.
 
 
@@ -30,11 +30,14 @@ In this file I will add a list of the remaining milestones for project completio
 ## Mini Shop System
 
 * [The player can collect points] (COMPLETED)
-* [The player can buy powers]
+* [The player can buy powers] (COMPLETED)
 
 ## Sound
 
-Development not initiated
+* [Add shooting sound effects]
+* [Add bullet hit sound effects]
+* [Add destruction sound effects]
+* [Add defeat sound effects]
 
 ## Main Menu
 
