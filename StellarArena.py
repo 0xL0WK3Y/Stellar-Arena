@@ -1,6 +1,6 @@
 import arcade, math, random, timeit
 from PlayerObject import PlayerCharacter
-from FireEnemy import FireEnemyObject
+from EnemyObject import Enemy
 
 
 WINDOW_WIDTH = 1250
@@ -37,7 +37,7 @@ class BotFight(arcade.Window):
         self.enemy_sprite_list = None
         self.bullet_sprite_list = None
         self.enemy_bullet_sprite_list = None
-        self.player_score = 0
+        self.credits = 0
 
         self.enemy_spawner_x_list = []
         self.enemy_spawner_y_list = []
@@ -58,17 +58,17 @@ class BotFight(arcade.Window):
         self.floor_list = arcade.SpriteList()
         self.player_spawn_list = arcade.SpriteList()
         self.enemy_spawn_list = arcade.SpriteList()
-        self.mv_box_tile_list = arcade.SpriteList()
-        self.hp_box_tile_list = arcade.SpriteList()
-        self.ad_box_tile_list = arcade.SpriteList()
-        self.collision_list = arcade.SpriteList()
+        self.mv_box_tile_list = arcade.SpriteList(use_spatial_hash=True)
+        self.hp_box_tile_list = arcade.SpriteList(use_spatial_hash=True)
+        self.ad_box_tile_list = arcade.SpriteList(use_spatial_hash=True)
+        self.collision_list = arcade.SpriteList(use_spatial_hash=True)
         self.enemy_sprite_list = arcade.SpriteList(use_spatial_hash=True)
         self.bullet_sprite_list = arcade.SpriteList(use_spatial_hash =True)
         self.enemy_bullet_sprite_list = arcade.SpriteList(use_spatial_hash=True)
 
         self.max_enemies = 2
         self.enemy_num = 0
-        self.player_score = 0
+        self.credits = 0
 
         level_file = "Maidens_Kiss.tmx"
         wall_layer_name = "Walls"
@@ -123,7 +123,7 @@ class BotFight(arcade.Window):
         self.hp_box_tile_list.draw()
         self.ad_box_tile_list.draw()
 
-        score_text = f"Credits: {self.player_score}"
+        score_text = f"Credits: {self.credits}"
         health_text = f"HP: {self.player.health}"
         bullet_text = "Bullets: Infinite"
         lazer_icon = arcade.load_texture("Sprites/lazer_icon.png")
@@ -245,8 +245,35 @@ class BotFight(arcade.Window):
         self.enemy_sprite_list.update_animation()
         self.physics_engine.update()
 
-        if self.enemy_num < 0:
+        if self.enemy_num <= 0:
             enemy_num = 0
+
+        for mv_up in self.mv_box_tile_list:
+            self.mv_box_collision = arcade.check_for_collision_with_list(mv_up, self.player_list)
+
+            for player_collision in self.mv_box_collision:
+                if self.credits >= 500:
+                    self.credits -= 500
+                    self.player.mv_speed += 3
+                    mv_up.remove_from_sprite_lists()
+        
+        for hp_up in self.hp_box_tile_list:
+            self.hp_box_collision = arcade.check_for_collision_with_list(hp_up, self.player_list)
+
+            for player_collision in self.mv_box_collision:
+                if self.credits >= 1000:
+                    self.credits -= 1000
+                    self.player.health += 550
+                    hp_up.remove_from_sprite_lists()
+        
+        for ad_up in self.ad_box_tile_list:
+            self. ad_box_collision = arcade.check_for_collision_with_list(ad_up, self.player_list)
+
+            for player_collision in self.ad_box_collision:
+                if self.credits >= 750:
+                    self.credits -= 750
+                    self.player.adaptation_uses += 10
+                    ad_up.remove_from_sprite_lists()
 
         for bullet in self.bullet_sprite_list:
             self.bullet_wall_collision = arcade.check_for_collision_with_list(bullet,self.wall_list)
@@ -268,7 +295,7 @@ class BotFight(arcade.Window):
                 
                 if bullet_collision.health <= 0:
                     self.enemy_num -= 1
-                    self.player_score += 25
+                    self.credits += 25
                 bullet.remove_from_sprite_lists()
                 
 
@@ -297,7 +324,7 @@ class BotFight(arcade.Window):
             enemy_type = random.randint(1,3)
             
             if(enemy_type == 1):
-                self.enemy = FireEnemyObject(100,100,4,5,"Fire")
+                self.enemy = Enemy(110,4,"Fire")
                 self.enemy.center_x = self.enemy_spawner_x_list[self.enemy_num]
                 self.enemy.center_y = self.enemy_spawner_y_list[self.enemy_num]
                 self.enemy_sprite_list.append(self.enemy)
@@ -305,7 +332,7 @@ class BotFight(arcade.Window):
             
             elif(enemy_type == 2):
                 
-                self.enemy = FireEnemyObject(100,100,4,5,"Leech")
+                self.enemy = Enemy(120,4,"Leech")
                 self.enemy.center_x = self.enemy_spawner_x_list[self.enemy_num]
                 self.enemy.center_y = self.enemy_spawner_y_list[self.enemy_num]
                 self.enemy_sprite_list.append(self.enemy)
@@ -313,7 +340,7 @@ class BotFight(arcade.Window):
             
             elif(enemy_type == 3):
 
-                self.enemy = FireEnemyObject(100,100,4,5,"Slime")
+                self.enemy = Enemy(100,5,"Slime")
                 self.enemy.center_x = self.enemy_spawner_x_list[self.enemy_num]
                 self.enemy.center_y = self.enemy_spawner_y_list[self.enemy_num]
                 self.enemy_sprite_list.append(self.enemy)
