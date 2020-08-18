@@ -10,7 +10,7 @@ def load_texture_pair(filename):
 class Enemy(arcade.Sprite):
     
 
-    def __init__(self,health,mv_speed,type):
+    def __init__(self,health,mv_speed,type,fire_damage):
         
         super().__init__()
         
@@ -27,6 +27,7 @@ class Enemy(arcade.Sprite):
         self.current_texture = 0
         self.updates_per_frame = 7
         self.walls_hit = []
+        self.fire_damage = fire_damage
 
         self.fire_sprite = arcade.Sprite("Sprites/player.png")
         self.idle_sprite = load_texture_pair("Sprites/player.png")
@@ -123,5 +124,6 @@ class Enemy(arcade.Sprite):
         
         self.bullet_damage = bullet_damage
         self.health -= self.bullet_damage
+            
 
 
