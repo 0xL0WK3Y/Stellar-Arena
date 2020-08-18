@@ -389,7 +389,10 @@ class BotFight(arcade.Window):
             
             if self.frame_count % 60 == 0:
 
-                enemy_bullet = arcade.Sprite("Sprites/lz_bullet.png")
+                if enemy.type == "Leech":
+                    enemy_bullet = arcade.Sprite("Sprites/leech_bullet.png")
+                else:
+                    enemy_bullet = arcade.Sprite("Sprites/lz_bullet.png")
                 enemy_bullet.center_x = enemy.start_x
                 enemy_bullet.center_y = enemy.start_y
 
