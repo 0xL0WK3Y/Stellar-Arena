@@ -59,6 +59,8 @@ class BotFight(arcade.Window):
         self.sl_hit_sound = arcade.load_sound("Sound/sl_hit.wav")
         self.lc_fire_sound = arcade.load_sound("Sound/lc_fire.wav")
         self.lc_hit_sound = arcade.load_sound("Sound/lc_hit.wav")
+        self.explosion_sound = arcade.load_sound("Sound/explosion.wav")
+        self.defeat_sound = arcade.load_sound("Sound/defeat.wav")
 
     def setup(self):
 
@@ -78,6 +80,8 @@ class BotFight(arcade.Window):
         self.max_enemies = 2
         self.enemy_num = 0
         self.credits = 0
+        self.bonus_effect = 0
+        self.deal_fire_damage = False
 
         level_file = "Maidens_Kiss.tmx"
         wall_layer_name = "Walls"
@@ -285,7 +289,7 @@ class BotFight(arcade.Window):
             for player_collision in self.ad_box_collision:
                 if self.credits >= 750:
                     self.credits -= 750
-                    self.player.adaptation_uses += 10
+                    self.bonus_effect += 5
                     ad_up.remove_from_sprite_lists()
 
         for bullet in self.bullet_sprite_list:
@@ -295,25 +299,30 @@ class BotFight(arcade.Window):
             for bullet_collision in self.bullet_wall_collision:
                 bullet.remove_from_sprite_lists()
             for bullet_collision in self.bullet_enemy_collision:
-                bullet_collision.take_damage(self.player.bullet_damage)
                 if self.player.adaptation == "Lazer":
                     self.player.adaptation = bullet_collision.type
+                    self.deal_fire_damage = False
                     arcade.play_sound(self.lz_hit_sound)
                 elif self.player.adaptation == "Fire":
-                    if self.frame_count % 60 == 0:
-                        bullet_collision.take_damage(10)
+                    bullet_collision.fire_damage = True
                     arcade.play_sound(self.fr_hit_sound)
                 elif self.player.adaptation == "Leech":
-                    self.player.health += 5
+                    self.player.health += 5 + self.bonus_effect
+                    self.deal_fire_damage = False
                     arcade.play_sound(self.lc_hit_sound)
                 elif self.player.adaptation == "Slime":
-                    bullet_collision.mv_speed -= 5
+                    bullet_collision.mv_speed -= 5 + self.bonus_effect
+                    self.deal_fire_damage = False
                     arcade.play_sound(self.sl_hit_sound)
                 
+                bullet_collision.take_damage(self.player.bullet_damage)
                 if bullet_collision.health <= 0:
+                    arcade.play_sound(self.explosion_sound)
+                    bullet_collision.remove_from_sprite_lists()
                     self.enemy_num -= 1
                     self.credits += 25
                 bullet.remove_from_sprite_lists()
+            
                 
 
         for enemy_bullet in self.enemy_bullet_sprite_list:
@@ -326,6 +335,7 @@ class BotFight(arcade.Window):
                 self.player.take_damage(50)
                 
                 if self.player.health <= 0:
+                    arcade.play_sound(self.defeat_sound)
                     self.setup()
                 enemy_bullet.remove_from_sprite_lists()
 
@@ -341,7 +351,7 @@ class BotFight(arcade.Window):
             enemy_type = random.randint(1,3)
             
             if(enemy_type == 1):
-                self.enemy = Enemy(110,4,"Fire")
+                self.enemy = Enemy(110,4,"Fire",False)
                 self.enemy.center_x = self.enemy_spawner_x_list[self.enemy_num]
                 self.enemy.center_y = self.enemy_spawner_y_list[self.enemy_num]
                 self.enemy_sprite_list.append(self.enemy)
@@ -349,7 +359,7 @@ class BotFight(arcade.Window):
             
             elif(enemy_type == 2):
                 
-                self.enemy = Enemy(120,4,"Leech")
+                self.enemy = Enemy(120,4,"Leech",False)
                 self.enemy.center_x = self.enemy_spawner_x_list[self.enemy_num]
                 self.enemy.center_y = self.enemy_spawner_y_list[self.enemy_num]
                 self.enemy_sprite_list.append(self.enemy)
@@ -357,12 +367,12 @@ class BotFight(arcade.Window):
             
             elif(enemy_type == 3):
 
-                self.enemy = Enemy(100,5,"Slime")
+                self.enemy = Enemy(100,5,"Slime",False)
                 self.enemy.center_x = self.enemy_spawner_x_list[self.enemy_num]
                 self.enemy.center_y = self.enemy_spawner_y_list[self.enemy_num]
                 self.enemy_sprite_list.append(self.enemy)
                 self.enemy_num += 1
-
+        
         for enemy in self.enemy_sprite_list:
             enemy.chase_player(self.player)
             enemy.check_wall_collision(self.wall_list)
@@ -370,9 +380,12 @@ class BotFight(arcade.Window):
 
             if self.enemy_num > self.max_enemies:
                 enemy.remove_from_sprite_lists()
+                self.enemy_num -= 1
             
-            if enemy.health <= 0:
-                enemy.remove_from_sprite_lists()
+            if enemy.fire_damage:
+                if self.frame_count % 60 == 0:
+                    enemy.take_damage(10 + self.bonus_effect)
+                    arcade.play_sound(self.fr_hit_sound)
             
             if self.frame_count % 60 == 0:
 
@@ -386,9 +399,17 @@ class BotFight(arcade.Window):
                 enemy_bullet.change_y = math.sin(enemy.angle) * enemy.bullet_speed
 
                 self.enemy_bullet_sprite_list.append(enemy_bullet)
+
+                if enemy.fire_damage:
+                    enemy.take_damage(10 + self.bonus_effect)
+                    arcade.play_sound(self.fr_hit_sound)
+                    if enemy.health <= 0:
+                        self.enemy_num -= 1
+                        self.credits += 25
+                        arcade.play_sound(self.explosion_sound)
+                        enemy.remove_from_sprite_lists()
             
             self.enemy_bullet_sprite_list.update()
-
         
         #If the player character moves beyond a certain margin, move the camera with it.
         #This basically centers the camera to the player when he moves too far in any direction.
