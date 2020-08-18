@@ -36,8 +36,8 @@ In this file I will add a list of the remaining milestones for project completio
 
 * [Add shooting sound effects] (COMPLETED)
 * [Add bullet hit sound effects] (COMPLETED)
-* [Add destruction sound effects]
-* [Add defeat sound effects]
+* [Add destruction sound effects] (COMPLETED)
+* [Add defeat sound effects] (COMPLETED)
 * [Add bacground music]
 
 ## Main Menu
@@ -52,4 +52,5 @@ Development not initiated
 * Display adaptation (COMPLETED)
 * Display effect (COMPLETED)
 * Display FPS (COMPLETED)
-* Fix the adaptation power up
+* Fix the adaptation power up (COMPLETED)
+* Fix the spawner bug.
