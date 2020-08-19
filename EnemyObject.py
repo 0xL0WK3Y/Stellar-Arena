@@ -32,16 +32,20 @@ class Enemy(arcade.Sprite):
         if self.type == "Leech":
             self.sprite = arcade.Sprite("Sprites/leech_enemy.png")
             self.idle_sprite = load_texture_pair("Sprites/leech_enemy.png")
+        elif self.type == "Slime":
+            self.sprite = arcade.Sprite("Sprites/slime_enemy.png")
+            self.idle_sprite = load_texture_pair("Sprites/slime_enemy.png")
         else:
-            self.sprite = arcade.Sprite("Sprites/player.png")
-            self.idle_sprite = load_texture_pair("Sprites/player.png")
-
+            self.sprite = arcade.Sprite("Sprites/fire_enemy.png")
+            self.idle_sprite = load_texture_pair("Sprites/fire_enemy.png")
         self.walk_textures = []
         for i in range(1,2,1):
             if self.type == "Leech":
                 texture = load_texture_pair("Sprites/leech_enemy_mv" + str(i)+".png")
+            elif self.type == "Slime":
+                texture = load_texture_pair("Sprites/slime_enemy_mv"+str(i)+".png")
             else:
-                texture = load_texture_pair("Sprites/player_move_"+str(i)+".png")
+                texture = load_texture_pair("Sprites/fire_enemy_mv"+str(i)+".png")
             self.walk_textures.append(texture)
 
     def update_animation(self, delta_time: float=1/60):
