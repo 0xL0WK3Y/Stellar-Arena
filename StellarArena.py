@@ -61,6 +61,8 @@ class BotFight(arcade.Window):
         self.lc_hit_sound = arcade.load_sound("Sound/lc_hit.wav")
         self.explosion_sound = arcade.load_sound("Sound/explosion.wav")
         self.defeat_sound = arcade.load_sound("Sound/defeat.wav")
+        self.screech_sound = arcade.load_sound("Sound/screech.wav")
+        self.meep_sound = arcade.load_sound("Sound/meep.wav")
 
     def setup(self):
 
@@ -216,7 +218,7 @@ class BotFight(arcade.Window):
             arcade.play_sound(self.lz_fire_sound)
             self.bullet_sprite_list.append(bullet)
          elif (self.player.adaptation == "Fire") and (self.player.adaptation_uses > 0):
-            bullet = arcade.Sprite("Sprites/bullet.png",1)
+            bullet = arcade.Sprite("Sprites/fire_bullet.png",1)
             arcade.play_sound(self.fr_fire_sound)
             self.bullet_sprite_list.append(bullet)
          elif((self.player.adaptation == "Slime") and (self.player.adaptation_uses > 0)):
@@ -304,20 +306,28 @@ class BotFight(arcade.Window):
                     self.deal_fire_damage = False
                     arcade.play_sound(self.lz_hit_sound)
                 elif self.player.adaptation == "Fire":
-                    bullet_collision.fire_damage = True
+                    if bullet_collision.type != "Fire":
+                        bullet_collision.fire_damage = True
                     arcade.play_sound(self.fr_hit_sound)
                 elif self.player.adaptation == "Leech":
-                    self.player.health += 5 + self.bonus_effect
+                    if bullet_collision.type != "Leech":
+                        self.player.health += 5 + self.bonus_effect
                     self.deal_fire_damage = False
                     arcade.play_sound(self.lc_hit_sound)
                 elif self.player.adaptation == "Slime":
-                    bullet_collision.mv_speed -= 5 + self.bonus_effect
+                    if bullet_collision.type != "Slime":
+                        bullet_collision.mv_speed -= 5 + self.bonus_effect
                     self.deal_fire_damage = False
                     arcade.play_sound(self.sl_hit_sound)
                 
                 bullet_collision.take_damage(self.player.bullet_damage)
                 if bullet_collision.health <= 0:
-                    arcade.play_sound(self.explosion_sound)
+                    if bullet_collision.type == "Fire":
+                            arcade.play_sound(self.explosion_sound)
+                    elif bullet_collision.type == "Slime":
+                        arcade.play_sound(self.meep_sound)
+                    else:
+                        arcade.play_sound(self.screech_sound)
                     bullet_collision.remove_from_sprite_lists()
                     self.enemy_num -= 1
                     self.credits += 25
@@ -391,8 +401,13 @@ class BotFight(arcade.Window):
 
                 if enemy.type == "Leech":
                     enemy_bullet = arcade.Sprite("Sprites/leech_bullet.png")
+                    arcade.play_sound(self.lc_fire_sound)
+                elif enemy.type == "Slime":
+                    enemy_bullet = arcade.Sprite("Sprites/slime_bullet.png")
+                    arcade.play_sound(self.sl_fire_sound)
                 else:
-                    enemy_bullet = arcade.Sprite("Sprites/lz_bullet.png")
+                    enemy_bullet = arcade.Sprite("Sprites/fire_bullet.png")
+                    arcade.play_sound(self.fr_fire_sound)
                 enemy_bullet.center_x = enemy.start_x
                 enemy_bullet.center_y = enemy.start_y
 
@@ -409,7 +424,12 @@ class BotFight(arcade.Window):
                     if enemy.health <= 0:
                         self.enemy_num -= 1
                         self.credits += 25
-                        arcade.play_sound(self.explosion_sound)
+                        if enemy.type == "Fire":
+                            arcade.play_sound(self.explosion_sound)
+                        elif enemy.type == "Slime":
+                            arcade.play_sound(self.meep_sound)
+                        else:
+                            arcade.play_sound(self.screech_sound)
                         enemy.remove_from_sprite_lists()
             
             self.enemy_bullet_sprite_list.update()
