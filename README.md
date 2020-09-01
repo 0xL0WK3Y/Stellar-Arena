@@ -7,7 +7,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/BramCetusAlt/Stellar:Arena">
-    <img src="Sprites/Logo.png" alt="Logo" width="650" height="550">
+    <img src="Sprites/Logo.png" alt="Logo" width="750" height="550">
   </a>
   
   <h3 align="center">Stellar: Arena </h3>
