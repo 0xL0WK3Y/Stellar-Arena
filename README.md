@@ -56,6 +56,8 @@ Fire bullets deal 10 damage over time to any enemy you hit. Slime bullets lower 
 
 * [The Python Arcade Library](https://pypi.org/project/arcade/)
 * [Tiled Map Editor](https://www.mapeditor.org/)
+* [Gimp](https://www.gimp.org/)
+* [Audacity](https://www.audacityteam.org/)
 
 ## Getting Started
 
