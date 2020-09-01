@@ -72,7 +72,7 @@ pip install arcade
 * Tiled map editor
 You will need this application if you want to create and import your own levels to the game or customize the existing ones.
 You can download it from the official website: https://www.mapeditor.org/
-Or clone from Github: https://github.com/bjorn/tiled
+Or clone it from Github: https://github.com/bjorn/tiled
 
 ### Installation
 
