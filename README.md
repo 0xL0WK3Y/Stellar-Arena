@@ -48,8 +48,8 @@ An indie bullet hell arcade game. More information once the project is done.
 
 ### Built With
 
-* [The Python Arcade Library] (https://pypi.org/project/arcade/)
-* [Tiled Map Editor] (https://www.mapeditor.org/)
+* [The Python Arcade Library](https://pypi.org/project/arcade/)
+* [Tiled Map Editor](https://www.mapeditor.org/)
 
 ## Getting Started
 
