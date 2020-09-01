@@ -42,9 +42,15 @@
 
 <a href="https://github.com/BramCetusAlt/Stellar-Arena/blob/master/Sprites/GameplayScreenshot.png">
     <img src="Sprites/GameplayScreenshot.png" alt="Logo" width="850" height="550">
-  </a>
+  </a> <br>
 
-An indie bullet hell arcade game. More information once the project is done.
+In this retro bullet hell arcade game you take control of a small spacecraft in order to fight terrible aliens in an interstellar arena gladiator-style tournament! You are equipped with the cutting edge technology of the LaZer guns which fire a special bullet that can identify and analyze your enemies, so you can easily adapt to the fight and devastate them.
+
+* Gameplay:
+
+When you shoot your enemies with the green LaZer bullets, you adapt to their specific type and your next 15 bullets are now enhanced with special effect. There are three types of enemies and thus three types of enhanced bullets: Fire, Slime and Leech.
+
+Fire bullets deal 10 damage over time to any enemy you hit. Slime bullets lower your enemies movement speed by 5 and Leech bullets will give you +5 Health Points. All enemies are immune to the effects of enchanced bullets of their own type. When you destroy an enemy you obtain 25 credits you can spend to buy power-ups. There are three power-ups in the game: Speed, Health and Effect. The Speed power-up costs 500 credits and will give you +3 movement speed, the Effect power-up costs 750 credits and will add a +5 bonus modifier to any of your enhanced bullets (e.g you fire bullets will now deal 10 + 5 damage over time instead of just 10) and the Health power-up costs 1000 and will give you +550 Health Points.
 
 ### Built With
 
