@@ -6,7 +6,7 @@ from EnemyObject import Enemy
 WINDOW_WIDTH = 1250
 WINDOW_HEIGHT = 650
 WINDOW_TITLE = "Stellar: Arena"
-
+arena = "Maidens_Kiss.tmx"
 WALL_SCALE = 1
 
 BULLET_SPEED = 7
@@ -18,11 +18,73 @@ BOTTOM_VIEW_MARGIN = 50
 
 UPDATES_PER_FRAME = 7
 
-class BotFight(arcade.Window):
+class ArenaSelection(arcade.View):
+    def on_show(self):
+        arcade.set_background_color(arcade.color.BLACK)
+        self.background_img = arcade.load_texture("Sprites/Selection.png")
+    def on_draw(self):
+        arcade.start_render()
+        arcade.draw_xywh_rectangle_textured(0,0,WINDOW_WIDTH,WINDOW_HEIGHT,self.background_img)
+    def on_key_press(self,key,modifiers):
+
+        if (key == arcade.key.NUM_1 or key == arcade.key.KEY_1):
+            arena = "Maidens_Kiss.tmx"
+            game_view = GameView()
+            game_view.setup(arena)
+            self.window.show_view(game_view)
+        elif (key == arcade.key.NUM_2 or key == arcade.key.KEY_2):
+            arena = "Metallic_Pyre.tmx"
+            game_view = GameView()
+            game_view.setup(arena)
+            self.window.show_view(game_view)
+        elif (key == arcade.key.NUM_3 or key == arcade.key.KEY_3):
+            arena = "Terminal_Stasis.tmx"
+            game_view = GameView()
+            game_view.setup(arena)
+            self.window.show_view(game_view)
+        elif (key == arcade.key.BACKSPACE):
+            menu_view = MenuView()
+            self.window.show_view(menu_view)
+            
+class InstructionsView(arcade.View):
+    def on_show(self):
+        arcade.set_background_color(arcade.color.BLACK)
+        self.background_img = arcade.load_texture("Sprites/Instructions.png")
+    def on_draw(self):
+        arcade.start_render()
+        arcade.draw_xywh_rectangle_textured(0,0,WINDOW_WIDTH,WINDOW_HEIGHT,self.background_img)
+    def on_key_press(self, key, modifiers):
+        if (key == arcade.key.BACKSPACE):
+            menu_view = MenuView()
+            self.window.show_view(menu_view)
+
+class MenuView(arcade.View):
+
+    def on_show(self):
+        
+        arcade.set_background_color(arcade.color.BLACK)
+        self.background_img = arcade.load_texture("Sprites/MainMenu.png")
+
+    def on_draw(self):
+        
+        arcade.start_render()
+        arcade.draw_xywh_rectangle_textured(0,0,WINDOW_WIDTH,WINDOW_HEIGHT,self.background_img)
+    
+    def on_key_press(self, key, modifiers):
+
+        if (key == arcade.key.P or key == arcade.key.SPACE):
+            arena_selection_view = ArenaSelection()
+            self.window.show_view(arena_selection_view)
+        elif (key == arcade.key.I):
+            instruction_view = InstructionsView()
+            self.window.show_view(instruction_view)
+            
+
+class GameView(arcade.View):
 
     def __init__(self):
 
-        super().__init__(WINDOW_WIDTH,WINDOW_HEIGHT,WINDOW_TITLE)
+        super().__init__()
         arcade.set_background_color(arcade.color.BLACK)
 
         self.player_list = None
@@ -64,7 +126,7 @@ class BotFight(arcade.Window):
         self.screech_sound = arcade.load_sound("Sound/screech.wav")
         self.meep_sound = arcade.load_sound("Sound/meep.wav")
 
-    def setup(self):
+    def setup(self,arena):
 
         self.player_list = arcade.SpriteList(use_spatial_hash=True)
         self.wall_list = arcade.SpriteList()
@@ -84,8 +146,8 @@ class BotFight(arcade.Window):
         self.credits = 0
         self.bonus_effect = 0
         self.deal_fire_damage = False
-
-        level_file = "Maidens_Kiss.tmx"
+        self.arena = arena
+        #level_file = self.arena
         wall_layer_name = "Walls"
         floor_layer_name = "Floor"
         player_spawner_name = "PlayerSpawner"
@@ -94,7 +156,7 @@ class BotFight(arcade.Window):
         hp_box_tile_layer_name = "HPBox"
         ad_box_tile_layer_name = "ADBox"
 
-        game_arena = arcade.tilemap.read_tmx(level_file)
+        game_arena = arcade.tilemap.read_tmx(self.arena)
         self.wall_list = arcade.tilemap.process_layer(game_arena,wall_layer_name,WALL_SCALE)
         self.floor_list = arcade.tilemap.process_layer(game_arena,floor_layer_name,WALL_SCALE)
         self.player_spawn_list = arcade.tilemap.process_layer(game_arena,player_spawner_name,WALL_SCALE)
@@ -464,9 +526,10 @@ class BotFight(arcade.Window):
             arcade.set_viewport(self.view_left,self.view_left+WINDOW_WIDTH,self.view_bottom,self.view_bottom+WINDOW_HEIGHT)
 
 def main():
-
-    main_window = BotFight()
-    main_window.setup()
+    window = arcade.Window(WINDOW_WIDTH,WINDOW_HEIGHT,"Stellar: Arena")
+    game_window = MenuView()
+    window.show_view(game_window)
+    #game_window.setup()
     arcade.run()
 
 if __name__ == "__main__":
