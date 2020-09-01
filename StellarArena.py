@@ -408,7 +408,7 @@ class GameView(arcade.View):
                 
                 if self.player.health <= 0:
                     arcade.play_sound(self.defeat_sound)
-                    self.setup()
+                    self.setup(self.arena)
                 enemy_bullet.remove_from_sprite_lists()
 
             
