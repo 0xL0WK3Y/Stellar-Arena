@@ -6,7 +6,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/BramCetusAlt/Stellar:Arena">
+  <a href="https://github.com/BramCetusAlt/Stellar-Arena/blob/master/Sprites/Logo.png">
     <img src="Sprites/Logo.png" alt="Logo" width="850" height="550">
   </a>
   
@@ -40,7 +40,9 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://github.com/BramCetusAlt/Stellar-Arena/blob/master/Sprites/GameplayScreenshot.png)
+<a href="https://github.com/BramCetusAlt/Stellar-Arena/blob/master/Sprites/GameplayScreenshot.png">
+    <img src="Sprites/GameplayScreenshot.png" alt="Logo" width="850" height="550">
+  </a>
 
 An indie bullet hell arcade game. More information once the project is done.
 
