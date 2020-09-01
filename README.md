@@ -40,7 +40,7 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]]
+[![Product Name Screen Shot][product-screenshot]](https://github.com/BramCetusAlt/Stellar-Arena/blob/master/Sprites/GameplayScreenshot.png)
 
 An indie bullet hell arcade game. More information once the project is done.
 
