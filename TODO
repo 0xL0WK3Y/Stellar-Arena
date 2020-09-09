@@ -5,8 +5,8 @@ In this file I will add a list of the remaining milestones for project completio
 * [Enemies combat] Status: Completed.
 * [Player Combat] Status: Completed.
 * [Mini Shop System] Status: Completed.
-* [Sound] Status: On progress.
-* [Main Menu] Status: Development not initiated.
+* [Sound] Status: Completed.
+* [Main Menu] Status: Completed.
 
 
 ## Enemy combat
@@ -38,11 +38,13 @@ In this file I will add a list of the remaining milestones for project completio
 * [Add bullet hit sound effects] (COMPLETED)
 * [Add destruction sound effects] (COMPLETED)
 * [Add defeat sound effects] (COMPLETED)
-* [Add bacground music]
 
 ## Main Menu
 
-Development not initiated
+* [Menu screen] (COMPLETED)
+* [Instructions] (COMPLETED)
+* [Arena Selection] (COMPLETED)
+* [Sound effects] (COMPLETED)
 
 ## Other
 
