@@ -1,6 +1,7 @@
 import arcade, math, random
 
 def load_texture_pair(filename):
+    """ Handles textures """
 
     return[
         arcade.load_texture(filename),
@@ -14,6 +15,7 @@ class Enemy(arcade.Sprite):
         
         super().__init__()
         
+        # Player attributes.
         self.bullet_speed = 5
         self.rotation = 0
         self.updates_per_frame = 7
@@ -29,6 +31,7 @@ class Enemy(arcade.Sprite):
         self.walls_hit = []
         self.fire_damage = fire_damage
 
+        # Handles enemy sprites according to the enemy's type.
         if self.type == "Leech":
             self.sprite = arcade.Sprite("Sprites/leech_enemy.png")
             self.idle_sprite = load_texture_pair("Sprites/leech_enemy.png")
@@ -49,7 +52,8 @@ class Enemy(arcade.Sprite):
             self.walk_textures.append(texture)
 
     def update_animation(self, delta_time: float=1/60):
-        
+        """ Handles possible animations""" 
+
         if self.change_x < 0 and self.character_face_direction == self.face_right:
             self.character_face_direction = self.face_left
         elif self.change_x > 0 and self.character_face_direction == self.face_left:
@@ -64,9 +68,9 @@ class Enemy(arcade.Sprite):
 
 
     def chase_player(self, player):
+        """ Allows the enemy to chase the player. """
 
         self.player = player
-
         self.center_x += self.change_x
         self.center_y += self.change_y
 
@@ -89,6 +93,7 @@ class Enemy(arcade.Sprite):
             self.change_y = math.sin(angle) * self.mv_speed
     
     def check_wall_collision(self,wall_list):
+        """ Handles enemy collision. """
 
         self.wall_list = wall_list
         walls_hit = []
@@ -113,6 +118,7 @@ class Enemy(arcade.Sprite):
             self.change_y *= -1
     
     def aim(self,player):
+        """ Makes the enemy aim at the player. """
 
         self.player = player
 
@@ -130,7 +136,8 @@ class Enemy(arcade.Sprite):
         self.angle = math.degrees(self.angle) - 90
 
     def take_damage(self,bullet_damage):
-        
+        """ Handles damage taken and health point reduction. """
+
         self.bullet_damage = bullet_damage
         self.health -= self.bullet_damage
             
