@@ -37,9 +37,8 @@
 <a href="https://github.com/BramCetusAlt/Stellar-Arena/blob/master/Sprites/GameplayScreenshot.png">
     <img src="Sprites/GameplayScreenshot.png" alt="Logo" width="850" height="550">
   </a> <br>
-Version 1.0 released!
 
-In this retro bullet hell arcade game you take control of a small spacecraft in order to fight terrible aliens in an interstellar arena gladiator-style tournament! You are equipped with the cutting edge technology of the LaZer guns which fire a special bullet that can identify and analyze your enemies, so you can easily adapt to the fight and devastate them.
+In this retro bullet hell arcade game you take control of a small spacecraft in order to fight terrible aliens in an interstellar arena gladiator-style tournament! You are equipped with the cutting edge technology of the LaZer guns which fire a special bullet that can identify and analyze your enemies, so you can easily adapt to the fight and devastate them. Version 1.0 now released!
 
 * Gameplay:
 
@@ -103,10 +102,6 @@ Completed
 Completed
 * Main Menu
 Completed
-* Bug fixes
-- Fixed a bug regarding the Leech bullets
-- Fixed a bug regarding the Adaptation (bonus) power-up
-Not yet fixed: More than 2 enemies can spawn in-game.
 
 For more take a look at the TODO file.
 
