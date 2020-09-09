@@ -22,27 +22,33 @@ class ArenaSelection(arcade.View):
     def on_show(self):
         arcade.set_background_color(arcade.color.BLACK)
         self.background_img = arcade.load_texture("Sprites/Selection.png")
+        self.select_sound = arcade.load_sound("Sound/select.wav")
+        self.cancel_sound = arcade.load_sound("Sound/cancel.wav")
     def on_draw(self):
         arcade.start_render()
         arcade.draw_xywh_rectangle_textured(0,0,WINDOW_WIDTH,WINDOW_HEIGHT,self.background_img)
     def on_key_press(self,key,modifiers):
 
         if (key == arcade.key.NUM_1 or key == arcade.key.KEY_1):
+            arcade.play_sound(self.select_sound)
             arena = "Maidens_Kiss.tmx"
             game_view = GameView()
             game_view.setup(arena)
             self.window.show_view(game_view)
         elif (key == arcade.key.NUM_2 or key == arcade.key.KEY_2):
+            arcade.play_sound(self.select_sound)
             arena = "Metallic_Pyre.tmx"
             game_view = GameView()
             game_view.setup(arena)
             self.window.show_view(game_view)
         elif (key == arcade.key.NUM_3 or key == arcade.key.KEY_3):
+            arcade.play_sound(self.select_sound)
             arena = "Terminal_Stasis.tmx"
             game_view = GameView()
             game_view.setup(arena)
             self.window.show_view(game_view)
         elif (key == arcade.key.BACKSPACE):
+            arcade.play_sound(self.cancel_sound)
             menu_view = MenuView()
             self.window.show_view(menu_view)
             
@@ -50,11 +56,13 @@ class InstructionsView(arcade.View):
     def on_show(self):
         arcade.set_background_color(arcade.color.BLACK)
         self.background_img = arcade.load_texture("Sprites/Instructions.png")
+        self.cancel_sound = arcade.load_sound("Sound/cancel.wav")
     def on_draw(self):
         arcade.start_render()
         arcade.draw_xywh_rectangle_textured(0,0,WINDOW_WIDTH,WINDOW_HEIGHT,self.background_img)
     def on_key_press(self, key, modifiers):
         if (key == arcade.key.BACKSPACE):
+            arcade.play_sound(self.cancel_sound)
             menu_view = MenuView()
             self.window.show_view(menu_view)
 
@@ -64,6 +72,8 @@ class MenuView(arcade.View):
         
         arcade.set_background_color(arcade.color.BLACK)
         self.background_img = arcade.load_texture("Sprites/MainMenu.png")
+        self.select_sound = arcade.load_sound("Sound/select.wav")
+        self.cancel_sound = arcade.load_sound("Sound/cancel.wav")
 
     def on_draw(self):
         
@@ -73,9 +83,11 @@ class MenuView(arcade.View):
     def on_key_press(self, key, modifiers):
 
         if (key == arcade.key.P or key == arcade.key.SPACE):
+            arcade.play_sound(self.select_sound)
             arena_selection_view = ArenaSelection()
             self.window.show_view(arena_selection_view)
         elif (key == arcade.key.I):
+            arcade.play_sound(self.select_sound)
             instruction_view = InstructionsView()
             self.window.show_view(instruction_view)
             
