@@ -61,9 +61,9 @@ Simply download all the files and install the prerequisites. Make sure all of th
 
 ### Prerequisites
 
-* Python Arcade library
+* Python Arcade library (preferably version 2.1.6)
 ```sh
-pip install arcade
+pip install arcade==2.1.6
 ```
 * Tiled map editor
 You will need this application if you want to create and import your own levels to the game or customize the existing ones.
