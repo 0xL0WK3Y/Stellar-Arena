@@ -11,12 +11,12 @@
   <p align="center">
     An open source, indie, arcade, bullet hell game made in python for PyLam. 
     <br />
-  <a href="https://github.com/BramCetusAlt/PyArcadeProject"><strong>Explore the docs</strong></a>
+  <a href="https://github.com/BramCetusAlt/Stellar-Arena/"><strong>Explore the docs</strong></a>
     <br />
     <br />
-  <a href="https://github.com/BramCetusAlt/issues">Report Bug</a>
+  <a href="https://github.com/BramCetusAlt/Stellar-Arena/issues">Report Bug</a>
     ·
-  <a href="https://github.com/BramCetusAlt/issues">Request Feature</a>
+  <a href="https://github.com/BramCetusAlt/Stellar-Arena/issues">Request Feature</a>
   </p>
 </p>
 
