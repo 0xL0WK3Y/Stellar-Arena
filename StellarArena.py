@@ -2,6 +2,7 @@ import arcade, math, random, timeit
 from PlayerObject import PlayerCharacter
 from EnemyObject import Enemy
 
+# Here are some constant variables
 
 WINDOW_WIDTH = 1250
 WINDOW_HEIGHT = 650
@@ -19,15 +20,24 @@ BOTTOM_VIEW_MARGIN = 50
 UPDATES_PER_FRAME = 7
 
 class ArenaSelection(arcade.View):
+
+    """ This is the menu screen for the arena selection called by the MenuView class. """
+
     def on_show(self):
+        """ A bit like __init__, it loads the basic textures and sounds. """
+
         arcade.set_background_color(arcade.color.BLACK)
         self.background_img = arcade.load_texture("Sprites/Selection.png")
         self.select_sound = arcade.load_sound("Sound/select.wav")
         self.cancel_sound = arcade.load_sound("Sound/cancel.wav")
     def on_draw(self):
+        """ It renders everything """
+
         arcade.start_render()
         arcade.draw_xywh_rectangle_textured(0,0,WINDOW_WIDTH,WINDOW_HEIGHT,self.background_img)
     def on_key_press(self,key,modifiers):
+        """ It allows the player to select an arena by pressing the keys 1,2,3 
+        or to go back by pressing backspace. """
 
         if (key == arcade.key.NUM_1 or key == arcade.key.KEY_1):
             arcade.play_sound(self.select_sound)
@@ -53,34 +63,48 @@ class ArenaSelection(arcade.View):
             self.window.show_view(menu_view)
             
 class InstructionsView(arcade.View):
+    """ A screen which shows the player some basic information about the game. 
+    Called by the MenuView class. """
+
     def on_show(self):
+        """ A bit like __init__, it loads the basic textures and sounds. """
+
         arcade.set_background_color(arcade.color.BLACK)
         self.background_img = arcade.load_texture("Sprites/Instructions.png")
         self.cancel_sound = arcade.load_sound("Sound/cancel.wav")
     def on_draw(self):
+        """ It renders everything. """
+
         arcade.start_render()
         arcade.draw_xywh_rectangle_textured(0,0,WINDOW_WIDTH,WINDOW_HEIGHT,self.background_img)
     def on_key_press(self, key, modifiers):
+        """ The player can go back to the main menu by pressing backspace. """
+
         if (key == arcade.key.BACKSPACE):
             arcade.play_sound(self.cancel_sound)
             menu_view = MenuView()
             self.window.show_view(menu_view)
 
 class MenuView(arcade.View):
+    """ The main menu window which appears when the game is ran. """
 
     def on_show(self):
-        
+        """ A bit like __init__, it loads the basic textures and sounds. """
+
         arcade.set_background_color(arcade.color.BLACK)
         self.background_img = arcade.load_texture("Sprites/MainMenu.png")
         self.select_sound = arcade.load_sound("Sound/select.wav")
         self.cancel_sound = arcade.load_sound("Sound/cancel.wav")
 
     def on_draw(self):
-        
+        """ It renders everything. """
+
         arcade.start_render()
         arcade.draw_xywh_rectangle_textured(0,0,WINDOW_WIDTH,WINDOW_HEIGHT,self.background_img)
     
     def on_key_press(self, key, modifiers):
+        """ The player can choose to start the game by going to the arena selection screen 
+        or can look at the instructions screen. """
 
         if (key == arcade.key.P or key == arcade.key.SPACE):
             arcade.play_sound(self.select_sound)
@@ -93,12 +117,15 @@ class MenuView(arcade.View):
             
 
 class GameView(arcade.View):
+    """ The main game window which appears when the game starts. It is called by the ArenaSelection class. """
 
     def __init__(self):
+        """Here we instantiate some basic variables."""
 
-        super().__init__()
+        super().__init__() 
         arcade.set_background_color(arcade.color.BLACK)
 
+        #The sprite lists.
         self.player_list = None
         self.wall_list = None
         self.floor_list = None
@@ -111,20 +138,21 @@ class GameView(arcade.View):
         self.enemy_sprite_list = None
         self.bullet_sprite_list = None
         self.enemy_bullet_sprite_list = None
-        self.credits = 0
-
+        
+        # The locations of the enemy spawners.
         self.enemy_spawner_x_list = []
         self.enemy_spawner_y_list = []
 
+        # Some camera variables.
         self.view_bottom = 0
         self.view_left = 0
 
-        self.movement_possible = True
-
+        # Status variables
         self.frame_count = 0
         self.fps_start_timer = None
         self.fps = None
 
+        # Here we load the sound files.
         self.lz_fire_sound = arcade.load_sound("Sound/lz_fire.wav")
         self.lz_hit_sound = arcade.load_sound("Sound/lz_hit.wav")
         self.fr_fire_sound = arcade.load_sound("Sound/fr_fire.wav")
@@ -139,7 +167,12 @@ class GameView(arcade.View):
         self.meep_sound = arcade.load_sound("Sound/meep.wav")
 
     def setup(self,arena):
+        """ This function is called when the game starts or restarts after a game over. Here we pass values to variables
+        relevant to the game that may be resetted later. This is the basic function which loads everything the game
+        will need. """
 
+
+        # We instantiate the sprite lists. Spatial hashing is activated to increase the frame-rate.
         self.player_list = arcade.SpriteList(use_spatial_hash=True)
         self.wall_list = arcade.SpriteList()
         self.floor_list = arcade.SpriteList()
@@ -153,13 +186,15 @@ class GameView(arcade.View):
         self.bullet_sprite_list = arcade.SpriteList(use_spatial_hash =True)
         self.enemy_bullet_sprite_list = arcade.SpriteList(use_spatial_hash=True)
 
+        # Some important variables that will be used under and for certain conditions.
         self.max_enemies = 2
         self.enemy_num = 0
         self.credits = 0
         self.bonus_effect = 0
         self.deal_fire_damage = False
         self.arena = arena
-        #level_file = self.arena
+
+        # The layer names for when any level gets imported.
         wall_layer_name = "Walls"
         floor_layer_name = "Floor"
         player_spawner_name = "PlayerSpawner"
@@ -168,6 +203,7 @@ class GameView(arcade.View):
         hp_box_tile_layer_name = "HPBox"
         ad_box_tile_layer_name = "ADBox"
 
+        # Here we import the level and process every layer according to their name.
         game_arena = arcade.tilemap.read_tmx(self.arena)
         self.wall_list = arcade.tilemap.process_layer(game_arena,wall_layer_name,WALL_SCALE)
         self.floor_list = arcade.tilemap.process_layer(game_arena,floor_layer_name,WALL_SCALE)
@@ -177,31 +213,35 @@ class GameView(arcade.View):
         self.hp_box_tile_list = arcade.tilemap.process_layer(game_arena,hp_box_tile_layer_name,WALL_SCALE)
         self.ad_box_tile_list = arcade.tilemap.process_layer(game_arena,ad_box_tile_layer_name,WALL_SCALE)
 
+        # The list of every sprite that can collide with the player.
         for sprite in self.wall_list:
             self.collision_list.append(sprite)
-        
+
+        # Here we create the player.
         self.player = PlayerCharacter(100,4,"Lazer",15)
         for spawner in self.player_spawn_list:
             self.player.center_x = spawner.center_x
             self.player.center_y = spawner.center_y
         self.player_list.append(self.player)
 
+        # We find the location of every enemy spawner.
         for spawner in self.enemy_spawn_list:
             self.enemy_spawner_x_list.append(spawner.center_x)
             self.enemy_spawner_y_list.append(spawner.center_y)
 
-            
-
+        # We give the arena the background color of the map.
         if game_arena.background_color:
             arcade.set_background_color(game_arena.background_color)
 
-        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player,self.collision_list,0)
+        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player,self.collision_list,0) # Instantiating the physics engine.
 
     def on_draw(self):
-            
-        arcade.start_render()
+        """ This function renders everything on screen. """
 
+        arcade.start_render()
         draw_start_time = timeit.default_timer
+
+        # We render the sprite lists.
         self.wall_list.draw()
         self.floor_list.draw()
         self.enemy_spawn_list.draw()
@@ -212,6 +252,7 @@ class GameView(arcade.View):
         self.hp_box_tile_list.draw()
         self.ad_box_tile_list.draw()
 
+        # Drawing some UI.
         score_text = f"Credits: {self.credits}"
         health_text = f"HP: {self.player.health}"
         bullet_text = "Bullets: Infinite"
@@ -251,7 +292,7 @@ class GameView(arcade.View):
             fps_text = f"FPS: {self.fps:.0f}"
             arcade.draw_text(fps_text, 10 + self.view_left, 620 + self.view_bottom, arcade.csscolor.WHITE, 16)
         
-
+        # Rendering the player.
         try:
             self.player_list.draw()
             self.enemy_sprite_list.draw()
@@ -260,18 +301,19 @@ class GameView(arcade.View):
             print(str(e))
     
     def on_key_press(self,key,modifiers):
+        """ Handles player movement. Makes the player move when a movement key is pressed."""
        
-        if (key == arcade.key.UP or key == arcade.key.W) and self.movement_possible:
+        if (key == arcade.key.UP or key == arcade.key.W):
             self.player.change_y = self.player.mv_speed
-        elif (key == arcade.key.DOWN or key == arcade.key.S) and self.movement_possible:
+        elif (key == arcade.key.DOWN or key == arcade.key.S):
             self.player.change_y = -self.player.mv_speed
-        elif (key == arcade.key.RIGHT or key == arcade.key.D) and self.movement_possible:
+        elif (key == arcade.key.RIGHT or key == arcade.key.D):
             self.player.change_x = self.player.mv_speed
-        elif (key == arcade.key.LEFT or key == arcade.key.A) and self.movement_possible:
+        elif (key == arcade.key.LEFT or key == arcade.key.A):
             self.player.change_x = -self.player.mv_speed
     
     def on_key_release(self, key, modifiers):
-
+        """ Handles player movement. Stops the player when a movement key is released. """
         if key == arcade.key.UP or key == arcade.key.W:
             self.player.change_y = 0
         elif key == arcade.key.DOWN or key == arcade.key.S:
@@ -282,54 +324,61 @@ class GameView(arcade.View):
             self.player.change_x = 0
         
     def on_mouse_press(self,x,y,button,modifiers):
+        """ Allows the player to shoot bullets. """
 
-         if self.player.adaptation_uses <= 0:
+        # When the player uses all of their enhanced bullets, return to their weapons to default.
+        if self.player.adaptation_uses <= 0:
             self.player.adaptation = "Lazer"
             self.player.adaptation_uses = 15
 
-         if (self.player.adaptation == "Lazer"):
+        # Changes the sprite of the player's bullets according to the player's adaptation.
+        if (self.player.adaptation == "Lazer"):
             bullet = arcade.Sprite("Sprites/lz_bullet.png")
             arcade.play_sound(self.lz_fire_sound)
             self.bullet_sprite_list.append(bullet)
-         elif (self.player.adaptation == "Fire") and (self.player.adaptation_uses > 0):
+        elif (self.player.adaptation == "Fire") and (self.player.adaptation_uses > 0):
             bullet = arcade.Sprite("Sprites/fire_bullet.png",1)
             arcade.play_sound(self.fr_fire_sound)
             self.bullet_sprite_list.append(bullet)
-         elif((self.player.adaptation == "Slime") and (self.player.adaptation_uses > 0)):
+        elif((self.player.adaptation == "Slime") and (self.player.adaptation_uses > 0)):
             bullet = arcade.Sprite("Sprites/slime_bullet.png",1)
             arcade.play_sound(self.sl_fire_sound)
             self.bullet_sprite_list.append(bullet)
-         elif((self.player.adaptation == "Leech") and (self.player.adaptation_uses > 0)):
+        elif((self.player.adaptation == "Leech") and (self.player.adaptation_uses > 0)):
             bullet = arcade.Sprite("Sprites/leech_bullet.png",1)
             arcade.play_sound(self.lc_fire_sound)
             self.bullet_sprite_list.append(bullet)
 
-         start_x = self.player.center_x
-         start_y = self.player.center_y
-         bullet.center_x = start_x
-         bullet.center_y = start_y 
+        # Handle the shooting mechanic
+        start_x = self.player.center_x
+        start_y = self.player.center_y
+        bullet.center_x = start_x
+        bullet.center_y = start_y 
 
-         dest_x = x + self.view_left
-         dest_y = y + self.view_bottom
-         x_diff = dest_x - start_x
-         y_diff = dest_y - start_y
+        dest_x = x + self.view_left
+        dest_y = y + self.view_bottom
+        x_diff = dest_x - start_x
+        y_diff = dest_y - start_y
        
-         angle = math.atan2(y_diff, x_diff)
+        angle = math.atan2(y_diff, x_diff)
         
-         bullet.angle = math.degrees(angle)
+        bullet.angle = math.degrees(angle)
         
-         bullet.change_x = math.cos(angle) * BULLET_SPEED
-         bullet.change_y = math.sin(angle) * BULLET_SPEED
+        bullet.change_x = math.cos(angle) * BULLET_SPEED
+        bullet.change_y = math.sin(angle) * BULLET_SPEED
 
-         if self.player.adaptation != "Lazer":
+        # Reduce the player's adaptation uses every time they shoot and enhanced bullet.
+        if self.player.adaptation != "Lazer":
             self.player.adaptation_uses -= 1
 
 
       
     def on_update(self,delta_time):
+        """ Does something every time a frame changes. """
 
         self.frame_count += 1
 
+        # Update the sprite lists and the physics.
         self.bullet_sprite_list.update()
         self.enemy_bullet_sprite_list.update()
         self.player_list.update()
@@ -338,9 +387,11 @@ class GameView(arcade.View):
         self.enemy_sprite_list.update_animation()
         self.physics_engine.update()
 
+        # Make sure the enemy number does not go below zero.
         if self.enemy_num < 0:
             enemy_num = 0
 
+        # Handles the power up "shop" mechanic.
         for mv_up in self.mv_box_tile_list:
             self.mv_box_collision = arcade.check_for_collision_with_list(mv_up, self.player_list)
 
@@ -368,12 +419,16 @@ class GameView(arcade.View):
                     self.bonus_effect += 5
                     ad_up.remove_from_sprite_lists()
 
+        # Handles everything that happens when the player shoots and hits an enemy. That includes dealing damage and taking effects.
         for bullet in self.bullet_sprite_list:
             self.bullet_wall_collision = arcade.check_for_collision_with_list(bullet,self.wall_list)
             self.bullet_enemy_collision = arcade.check_for_collision_with_list(bullet, self.enemy_sprite_list)
 
+            # Remove the bullet when it collides with something.
             for bullet_collision in self.bullet_wall_collision:
                 bullet.remove_from_sprite_lists()
+
+            # Handle the bullet effects
             for bullet_collision in self.bullet_enemy_collision:
                 if self.player.adaptation == "Lazer":
                     self.player.adaptation = bullet_collision.type
@@ -394,6 +449,7 @@ class GameView(arcade.View):
                     self.deal_fire_damage = False
                     arcade.play_sound(self.sl_hit_sound)
                 
+                # Deal damage and destroy enemies.
                 bullet_collision.take_damage(self.player.bullet_damage)
                 if bullet_collision.health <= 0:
                     if bullet_collision.type == "Fire":
@@ -408,13 +464,16 @@ class GameView(arcade.View):
                 bullet.remove_from_sprite_lists()
             
                 
-
+        # Handle everything that happens when an enemy shoots and hits a player.
         for enemy_bullet in self.enemy_bullet_sprite_list:
             self.enemy_bullet_wall_collision = arcade.check_for_collision_with_list(enemy_bullet,self.wall_list)
             self.enemy_bullet_player_collision = arcade.check_for_collision_with_list(enemy_bullet,self.player_list)
 
+            # Remove the bullet when it collides with something.
             for bullet_collision in self.enemy_bullet_wall_collision:
                 enemy_bullet.remove_from_sprite_lists()
+
+            # Deal damage to and destroy the player.
             for bullet_collision in self.enemy_bullet_player_collision:
                 self.player.take_damage(50)
                 
@@ -425,13 +484,14 @@ class GameView(arcade.View):
 
             
                 
-
+        # Handle the camera view.
         view_changed = False
         left_border = self.view_left + LEFT_VIEW_MARGIN
 
-        #Spawn enemies
+        # Spawn the enemies.
         if self.enemy_num < self.max_enemies:
             
+            # Spawn an enemy of random type and stats.
             enemy_type = random.randint(1,3)
             
             if(enemy_type == 1):
@@ -457,15 +517,18 @@ class GameView(arcade.View):
                 self.enemy_sprite_list.append(self.enemy)
                 self.enemy_num += 1
         
+        # Handle enemy behavior.
         for enemy in self.enemy_sprite_list:
             enemy.chase_player(self.player)
             enemy.check_wall_collision(self.wall_list)
             enemy.aim(self.player)
 
+            # Attempt to fix the spawning bug (Doesn't seem to work)
             if self.enemy_num > self.max_enemies:
                 enemy.remove_from_sprite_lists()
                 self.enemy_num -= 1
             
+            # Handle the enemy burning mechanic that comes with the fire bullets.
             if enemy.fire_damage:
                 if self.frame_count % 60 == 0:
                     enemy.take_damage(10 + self.bonus_effect)
@@ -492,9 +555,8 @@ class GameView(arcade.View):
 
                 self.enemy_bullet_sprite_list.append(enemy_bullet)
 
+                # Handle death by fire bullets.
                 if enemy.fire_damage:
-                    enemy.take_damage(10 + self.bonus_effect)
-                    arcade.play_sound(self.fr_hit_sound)
                     if enemy.health <= 0:
                         self.enemy_num -= 1
                         self.credits += 25
@@ -508,8 +570,9 @@ class GameView(arcade.View):
             
             self.enemy_bullet_sprite_list.update()
         
-        #If the player character moves beyond a certain margin, move the camera with it.
-        #This basically centers the camera to the player when he moves too far in any direction.
+        # Handles the camera movement.
+        # If the player character moves beyond a certain margin, move the camera with it.
+        # This basically centers the camera to the player when he moves too far in any direction.
         if self.player.left < left_border:
             self.view_left -= left_border - self.player.left
             view_changed = True
@@ -538,12 +601,14 @@ class GameView(arcade.View):
             arcade.set_viewport(self.view_left,self.view_left+WINDOW_WIDTH,self.view_bottom,self.view_bottom+WINDOW_HEIGHT)
 
 def main():
-    window = arcade.Window(WINDOW_WIDTH,WINDOW_HEIGHT,"Stellar: Arena")
-    game_window = MenuView()
-    window.show_view(game_window)
-    #game_window.setup()
-    arcade.run()
+    """ The main method of the file. Everything starts here. """
 
+    window = arcade.Window(WINDOW_WIDTH,WINDOW_HEIGHT,"Stellar: Arena") # Create the window.
+    game_window = MenuView()
+    window.show_view(game_window) # Call the main menu screen.
+    arcade.run() # Start the game.
+
+# For imports.
 if __name__ == "__main__":
     main()
         
