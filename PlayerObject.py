@@ -1,7 +1,8 @@
 import arcade
 
 def load_texture_pair(filename):
-
+    """ Handles textures """
+    
     return[
         arcade.load_texture(filename),
         arcade.load_texture(filename, mirrored=True)
@@ -15,6 +16,7 @@ class PlayerCharacter(arcade.Sprite):
 
         super().__init__()
         
+        # Player attributes.
         self.rotation = 0
         self.updates_per_frame = 7
         self.health = health
@@ -29,7 +31,7 @@ class PlayerCharacter(arcade.Sprite):
         self.current_texture = 0
         self.updates_per_frame = 7
         
-
+        # Handles the player textures.
         self.player_sprite = arcade.Sprite("Sprites/player.png")
 
         self.idle_sprite = load_texture_pair("Sprites/player.png")
@@ -40,7 +42,8 @@ class PlayerCharacter(arcade.Sprite):
             self.walk_textures.append(texture)
 
     def update_animation(self, delta_time: float=1/60):
-        
+        """ Handles possible animations""" 
+
         if self.change_x < 0 and self.character_face_direction == self.face_right:
             self.character_face_direction = self.face_left
         elif self.change_x > 0 and self.character_face_direction == self.face_left:
@@ -54,6 +57,7 @@ class PlayerCharacter(arcade.Sprite):
         self.texture = self.walk_textures[self.current_texture // self.updates_per_frame][self.character_face_direction]
 
     def take_damage(self,damage_taken):
-        
+        """ Handles damage taken and health point reduction. """
+
         self.damage_taken = damage_taken
         self.health -= self.damage_taken
