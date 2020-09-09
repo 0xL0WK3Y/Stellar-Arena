@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="55" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="1">
+ <tileset firstgid="1" name="StellarMaidenTileset" tilewidth="32" tileheight="32" tilecount="10" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="0">
+   <image width="32" height="32" source="Sprites/Blue_Wall.png"/>
+  </tile>
+  <tile id="1">
+   <image width="32" height="32" source="Sprites/Purple_Tile.png"/>
+  </tile>
+  <tile id="2">
+   <image width="32" height="32" source="Sprites/T_Wall.png"/>
+  </tile>
+  <tile id="3">
+   <image width="32" height="32" source="Sprites/T_Tile.png"/>
+  </tile>
+  <tile id="4">
+   <image width="32" height="32" source="Sprites/player_spawn.png"/>
+  </tile>
+  <tile id="5">
+   <image width="32" height="32" source="Sprites/enemy_spawn.png"/>
+  </tile>
+  <tile id="6">
+   <image width="32" height="32" source="Sprites/Purple_Tile_Clean.png"/>
+  </tile>
+  <tile id="7">
+   <image width="32" height="32" source="Sprites/mv_box.png"/>
+  </tile>
+  <tile id="8">
+   <image width="32" height="32" source="Sprites/hp_box.png"/>
+  </tile>
+  <tile id="9">
+   <image width="32" height="32" source="Sprites/ad_box.png"/>
+  </tile>
+ </tileset>
+ <layer id="1" name="Walls" width="55" height="40">
+  <data encoding="base64" compression="zlib">
+   eAHtluEOhCAMgzX3/u/sNZcmhABuS5TCjQTn5pB+1B+ex3GcOZc4g8/XJ054hrGDd2QCD+7JhnxlvpILLDXbqnw1V49tNb4W14htFb4e1x2bOt+Iy8KmynfHZWVT47NwedhU+KxcXrbZfB6uCNtMPrB5BvrL/xLPWvVe/mOp64zoq9mYM0beOWMN9SJysIac93Vkr2qs9SLHaNVbtV+33rWlNVJTI4swjNao8I00Rp8l2/MnEPWmt+55xb4dejq9dd+u73VbOKCm1/ee0thOLd0lD99a97GuHkvd1Moa851isq3pZvqWvqmdQH6Tao7Y9KRvtnNS60rf1Byx6fkH38i4W7wAco0Dlg==
+  </data>
+ </layer>
+ <layer id="2" name="Floor" width="55" height="40">
+  <data encoding="base64" compression="zlib">
+   eAHtloEKgzAMRGUM9v9/PG9ycISkikqbuAYkbUzbe01wW5ZpVW/gU1V4oPstcbA9hQ9cHlt1PnJFbFX5lMuyvdZa4qnYn5YrYqvG53G12KrwRVx7bNn5Wlwem+aDLSuf6ozGq/yf4fsBDs0jWzY+1dgab2Tbt7HFloWvxWLfWTatlTfm70MFr2yRXo9xZCzSaeOWjXN65pOF81E+0kG98NTGGOaRMTfal+97eavD093isfnUbfdlvJe351udZ+fUj/057u317LMc0Tqw6P6j2CJ9V+K9WaLzrjBEa59aN95hhp6ElrtMuUaz6flH+Fr3kIUr0uHxKQ/X2TzGcVd6X4yP8laP6qYmxjj3vN3HyxkR29OlbMz1/AjtR870tCKGtTSMGTuyZ+Yccky2cf8fz/THrFuterHGs26zbuyFLP4fexLMT3jQQ7Qs/XSnDrI91X8BQs0gbg==
+  </data>
+ </layer>
+ <layer id="4" name="EnemySpawner" width="55" height="40">
+  <data encoding="base64" compression="zlib">
+   eAHt1LENACEMBEGi779kvoXTEo5jrwQT+BxDgAABAgQIECBAgAABAgQIECBQBL4S/23pSxufLSdAgACBBwLu+I7IbDdTECBAYBWot7b0pV3/aZ8AgU3gAg8+ADE=
+  </data>
+ </layer>
+ <layer id="3" name="PlayerSpawner" width="55" height="40">
+  <data encoding="base64" compression="zlib">
+   eAHt0LEJAAAMw7As/f/lHhHIJD9gUCICBAgQIECAAIG1wK2HfgQIECBAgAABAgQIECBAgAABAgQIECBAgACBQuABnqwABg==
+  </data>
+ </layer>
+ <layer id="5" name="MVBox" width="55" height="40">
+  <data encoding="base64" compression="zlib">
+   eAHt0DENAAAMw7Ce4494JKpeDoFITkSAAAECBAgQ2AncbuVEgAABAgQIECBAgAABAgQIECBAgAABAgQIECBQEnjxgAAJ
+  </data>
+ </layer>
+ <layer id="6" name="HPBox" width="55" height="40">
+  <data encoding="base64" compression="zlib">
+   eAHt0DENAAAMw7C+4094NFrJQRA5EQECBAgQ2Ba47X33BAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBOoFHhqjAAo=
+  </data>
+ </layer>
+ <layer id="7" name="ADBox" width="55" height="40">
+  <data encoding="base64" compression="zlib">
+   eAHt0KEBAAAMwjD0/j94nhcIrsgkRoAAAQItcH1oAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIDAs8RxcACw==
+  </data>
+ </layer>
+</map>
