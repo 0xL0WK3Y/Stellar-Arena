@@ -25,7 +25,7 @@
 * [About the Project](#about-the-project)
   * [Built With](#built-with)
 * [Getting Started](#getting-started)
-  * [Prerequisites & Installation](#prerequisites-&-installation)
+  * [Installation](#installation)
 * [Roadmap](#roadmap)
 * [Contributing](#contributing)
 * [License](#license)
@@ -57,7 +57,7 @@ Fire bullets deal 10 damage over time to any enemy you hit. Slime bullets lower 
 
 Simply download all the files and install the prerequisites. Make sure all of the files are in their correct folders and run the app.
 
-### Prerequisites & Installation
+### Installation
 
 * Python Arcade library (preferably version 2.1.6)
 ```sh
