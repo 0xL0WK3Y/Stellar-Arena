@@ -25,7 +25,7 @@
 * [About the Project](#about-the-project)
   * [Built With](#built-with)
 * [Getting Started](#getting-started)
-  * [Prerequisites & Installation](#prerequisites & installation)
+  * [Prerequisites & Installation](#prerequisites-&-installation)
 * [Roadmap](#roadmap)
 * [Contributing](#contributing)
 * [License](#license)
