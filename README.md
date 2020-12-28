@@ -62,6 +62,8 @@ Simply download all the files and install the prerequisites. Make sure all of th
 * Python Arcade library (preferably version 2.1.6)
 ```sh
 pip install arcade==2.1.6
+pip uninstall pytiled-parser
+pip install pytiled-parser==0.9.3
 ```
 In case the game crushes, even if the arcade version is the correct one, try uninstalling the library and all of its dependencies and reinstalling arcade again.
 ```sh
@@ -74,6 +76,15 @@ pip uninstall numpy
 
 pip install arcade==2.1.6
 ```
+
+If you get the error `AttributeError: 'TileLayer' object has no attribute 'data'`:
+
+This error is caused by the fact that "arcade" installs the newest versions of each dependencies when installed. This means that when you install arcade version 2.1.6 the newer and incompatible version of pytiled-parser (currently 0.9.4) is also installed. The solution is to uninstall the newer version and install pytiled-parser version 0.9.3
+```sh
+pip uninstall pytiled-parser
+pip install pytiled-parser==0.9.3
+```
+
 * Tiled map editor
 You will need this application if you want to create and import your own levels to the game or customize the existing ones. You do not need to download, install and run it in order to play the game.
 
